@@ -1,0 +1,70 @@
+#header-logo-img {
+  width: 60px;
+}
+
+.header-main-wrap {
+  background-color: var(--primary-color);
+  padding: 10px;
+  font-family: var(--primary-font);
+}
+
+.header-content-wrap {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+}
+
+.header-title-logo-wrap{
+    height: 60px;
+    display: flex;
+    flex-flow: row;
+    color: var(--text-color-light);
+    align-items: center;
+}
+
+.header-title,.header-subtitle{
+    margin: 0px;
+    margin-left: 15px;
+}
+
+.header-title{
+    font-size: var(--header-2-font-size);
+    font-weight: 800;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.header-subtitle{
+    font-size: var(--header-3-font-size);
+    font-weight: 600;
+}
+
+.header-registration-wrap {
+  display: flex;
+  flex-flow: row;
+  align-content: center;
+  color: var(--text-color-light);
+  font-size: var(--header-3-font-size);
+  cursor: default;
+}
+
+.header-button-design{
+    height: 60%;
+    align-self: center;
+    margin: 5px;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    color: var(--text-color-light);
+    font-size: var(--header-3-font-size);
+    font-family: var(--primary-font);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.header-button-design:hover{
+    color: var(--text-color-hover-1);
+    
+}
+
+
