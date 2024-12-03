@@ -5,6 +5,11 @@
   cursor: pointer;
 }
 
+#header-button-registe{
+    padding-right: 0px;
+    margin-right: 5px;
+}
+
 .header-main-wrap {
   background-color: var(--primary-color);
   padding: 10px;
