@@ -1,5 +1,8 @@
 #header-logo-img {
   width: 60px;
+  border-radius: 120px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
 }
 
 .header-main-wrap {
@@ -14,29 +17,32 @@
   justify-content: space-between;
 }
 
-.header-title-logo-wrap{
-    height: 60px;
-    display: flex;
-    flex-flow: row;
-    color: var(--text-color-light);
-    align-items: center;
+.header-title-logo-wrap {
+  height: 60px;
+  display: flex;
+  flex-flow: row;
+  color: var(--text-color-light);
+  align-items: center;
 }
 
-.header-title,.header-subtitle{
-    margin: 0px;
-    margin-left: 15px;
+.header-title,
+.header-subtitle {
+  margin: 0px;
+  margin-left: 15px;
 }
 
-.header-title{
-    font-size: var(--header-2-font-size);
-    font-weight: 800;
-    margin-bottom: 5px;
-    margin-top: 5px;
+.header-title {
+  font-size: var(--header-2-font-size);
+  font-weight: 800;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: color 0.3s ease;
 }
 
-.header-subtitle{
-    font-size: var(--header-3-font-size);
-    font-weight: 600;
+.header-subtitle {
+  font-size: var(--header-3-font-size);
+  font-weight: 600;
+  cursor: default;
 }
 
 .header-registration-wrap {
@@ -48,23 +54,41 @@
   cursor: default;
 }
 
-.header-button-design{
-    height: 60%;
-    align-self: center;
-    margin: 5px;
-    border: none;
-    background-color: transparent;
-    cursor: pointer;
-    color: var(--text-color-light);
-    font-size: var(--header-3-font-size);
-    font-family: var(--primary-font);
-    font-weight: 500;
-    transition: color 0.3s ease;
+.header-button-design {
+  height: 60%;
+  align-self: center;
+  margin: 5px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  color: var(--text-color-light);
+  font-size: var(--header-3-font-size);
+  font-family: var(--primary-font);
+  font-weight: 500;
+  transition: color 0.3s ease;
 }
 
-.header-button-design:hover{
-    color: var(--text-color-hover-1);
-    
+.header-button-design:hover {
+  color: var(--text-color-hover-1);
 }
 
+#header-logo-img:hover {
+  background-color: var(--text-color-hover-1);
+}
 
+.header-title:hover {
+  color: var(--text-color-hover-1);
+}
+
+@media (max-width: 576px) {
+    #header-logo-img{
+        display: none;
+    }
+    .header-subtitle{
+        display: none;
+    }
+    .header-title{
+        margin-left: 0px;
+        margin-bottom: 0px;
+    }
+}
