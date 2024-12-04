@@ -1,20 +1,24 @@
 :root {
   /* Paleta boja */
-  --primary-color: #402e7a;
+  --primary-color: #0f305b;
   --secondary-color: #4b70f5;
   --background-color: #ffffff;
   --text-color-light: #ffffff;
   --text-color-dark: #000000;
   --text-color-hover-1: #9aefef;
 
+
   /* Fontovi */
   --primary-font: "Lora", serif;
   --secondary-font: "Baloo 2";
+  --secondary-quotes: 'Great Vibes', cursive;
 
   /* Velicina Fonat */
+  --header-0-font-size: 40px;
   --header-1-font-size: 28px;
   --header-2-font-size: 25px;
-  --header-3-font-size: 15px;
+  --header-2-5-font-size: 20px;
+  --header-3-font-size: 16px;
   --header-4-font-size: 13px;
   --paragraf-font-size: 12px;
 

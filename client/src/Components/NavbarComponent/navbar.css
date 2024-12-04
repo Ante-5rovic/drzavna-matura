@@ -21,10 +21,15 @@
   font-family: var(--primary-font);
   color: var(--text-color-light);
   font-weight: 500;
+  transition: color 0.3s ease;
 }
 
 .navbar-subjects-phone-wrap {
   display: none;
+}
+
+.navbar-subject-link{
+  text-decoration: none;
 }
 
 .navbar-subject:hover {
@@ -38,12 +43,9 @@
 
   .navbar-subjects-phone-wrap {
     display: flex;
-    padding-left: 5px;
-    padding-right: 5px;
   }
 
   .navbar-subject {
-    font-size: var(--header-4-font-size);
     font-weight: 300;
   }
 }
