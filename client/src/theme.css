@@ -1,14 +1,14 @@
 :root {
   /* Paleta boja */
-  --primary-color: #402E7A;
-  --secondary-color: #4B70F5;
+  --primary-color: #402e7a;
+  --secondary-color: #4b70f5;
   --background-color: #ffffff;
   --text-color-light: #ffffff;
   --text-color-dark: #000000;
-  --text-color-hover-1: #9AEFEF;
+  --text-color-hover-1: #9aefef;
 
   /* Fontovi */
-  --primary-font: 'Lora', serif;
+  --primary-font: "Lora", serif;
   --secondary-font: "Baloo 2";
 
   /* Velicina Fonat */
@@ -22,7 +22,5 @@
   --breakpont-for-small-midium-devices: 576px;
   --breakpont-for-midium-large-devices: 992px;
 
-
-
-
+  --breakpont-for-navbar: 700px;
 }

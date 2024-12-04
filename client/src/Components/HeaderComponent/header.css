@@ -5,9 +5,9 @@
   cursor: pointer;
 }
 
-#header-button-registe{
-    padding-right: 0px;
-    margin-right: 5px;
+#header-button-registe {
+  padding-right: 0px;
+  margin-right: 5px;
 }
 
 .header-main-wrap {
@@ -86,14 +86,14 @@
 }
 
 @media (max-width: 576px) {
-    #header-logo-img{
-        display: none;
-    }
-    .header-subtitle{
-        display: none;
-    }
-    .header-title{
-        margin-left: 0px;
-        margin-bottom: 0px;
-    }
+  #header-logo-img {
+    display: none;
+  }
+  .header-subtitle {
+    display: none;
+  }
+  .header-title {
+    margin-left: 0px;
+    margin-bottom: 0px;
+  }
 }
