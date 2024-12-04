@@ -1,6 +1,7 @@
 import React from "react";
 
 import "./footer.css";
+import Quotes from "./QuotesComponent/Quotes";
 
 const Footer = () => {
   return (
@@ -28,12 +29,12 @@ const Footer = () => {
             </h3>
             <address className="footer-contact-information-adresss-wrap">
               <p>
-                <strong className="footer-base-information">Email:  </strong>
-                <a className="footer-base-information" href="mailto:example@example.com">example@example.com</a>
+                <strong className="footer-base-information-title">Email:  </strong>
+                <a className="footer-base-information footer-base-information-information" href="mailto:example@example.com">example@example.com</a>
               </p>
               <p>
-                <strong className="footer-base-information">Broj telefona:  </strong>
-                <a className="footer-base-information" href="tel:+1234567890">+123 456 7890</a>
+                <strong className="footer-base-information-title">Broj telefona:  </strong>
+                <a className="footer-base-information  footer-base-information-information" href="tel:+1234567890">+123 456 7890</a>
               </p>
             </address>
             <div className="footer-social-media-wrap">
@@ -54,7 +55,9 @@ const Footer = () => {
               />
             </div>
           </div>
-          <div className="footer-quote-wrap"></div>
+          <div className="footer-quote-wrap">
+            <Quotes/>
+          </div>
         </div>
       </section>
     </footer>
