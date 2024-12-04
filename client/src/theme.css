@@ -1,0 +1,26 @@
+:root {
+  /* Paleta boja */
+  --primary-color: #402e7a;
+  --secondary-color: #4b70f5;
+  --background-color: #ffffff;
+  --text-color-light: #ffffff;
+  --text-color-dark: #000000;
+  --text-color-hover-1: #9aefef;
+
+  /* Fontovi */
+  --primary-font: "Lora", serif;
+  --secondary-font: "Baloo 2";
+
+  /* Velicina Fonat */
+  --header-1-font-size: 28px;
+  --header-2-font-size: 25px;
+  --header-3-font-size: 15px;
+  --header-4-font-size: 13px;
+  --paragraf-font-size: 12px;
+
+  /* Breakpoints */
+  --breakpont-for-small-midium-devices: 576px;
+  --breakpont-for-midium-large-devices: 992px;
+
+  --breakpont-for-navbar: 700px;
+}
