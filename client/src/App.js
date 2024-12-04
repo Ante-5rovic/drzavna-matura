@@ -5,6 +5,7 @@ import './theme.css';
 //Pages
 import Home from "./Pages/HomePage/Home";
 import NotFound from "./Pages/ErrorPages/NotFound/NotFound";
+import StillInDevelopment from "./Pages/ErrorPages/StillInDevelopment/StillInDevelopment";
 
 
 function App() {
@@ -15,7 +16,8 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/home.html" element={<Home />} />
-
+        <Route path="/StillInDevelopment" element={<StillInDevelopment />} />
+        <Route path="/StillInDevelopment.html" element={<StillInDevelopment />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

@@ -3,10 +3,10 @@ import React from "react";
 import "./footer.css";
 import Quotes from "./QuotesComponent/Quotes";
 
-const Footer = () => {
+const Footer = ({footerImmageClass}) => {
   return (
     <footer className="footer-main-wrap">
-      <div id="footer-separation-immage"></div>
+      <div id={`footer-separation-immage-${footerImmageClass}`} className="footer-separation-immage"></div>
       <section className="footer-section-wrap">
         <div className="footer-section-left-side-wrap">
           <div className="footer-logo-title-wrap">

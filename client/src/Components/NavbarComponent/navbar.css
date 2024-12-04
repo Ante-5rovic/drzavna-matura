@@ -28,6 +28,10 @@
   display: none;
 }
 
+.navbar-subject-link{
+  text-decoration: none;
+}
+
 .navbar-subject:hover {
   color: var(--text-color-hover-1);
 }

@@ -13,6 +13,7 @@
 .header-main-wrap {
   background-color: var(--primary-color);
   padding: 10px;
+  display: block;
   font-family: var(--primary-font);
 }
 
@@ -71,6 +72,14 @@
   font-family: var(--primary-font);
   font-weight: 500;
   transition: color 0.3s ease;
+}
+
+.header-link{
+  text-decoration: none;
+  color: var(--text-color-light);
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
 }
 
 .header-button-design:hover {

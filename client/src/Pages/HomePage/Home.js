@@ -17,7 +17,7 @@ const Home = () => {
         <section className='home-section-wrap-TEST'>
           hmm
         </section>
-        <Footer></Footer>
+        <Footer footerImmageClass={"footer1"}/>
     </main>
   )
 }
