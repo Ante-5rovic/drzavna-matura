@@ -13,12 +13,12 @@ const Navbar = () => {
         <h2 className="navbar-subject">Engleski niža</h2>
       </div>
       <div className="navbar-subjects-phone-wrap">
-        <h2 className="navbar-subject">Mat viša</h2>
-        <h2 className="navbar-subject">Mat niža</h2>
-        <h2 className="navbar-subject">Hrv viša</h2>
-        <h2 className="navbar-subject">Hrv niža</h2>
-        <h2 className="navbar-subject">Eng viša</h2>
-        <h2 className="navbar-subject">Eng niža</h2>
+        <h2 className="navbar-subject">Mat A</h2>
+        <h2 className="navbar-subject">Mat B</h2>
+        <h2 className="navbar-subject">Hrv A</h2>
+        <h2 className="navbar-subject">Hrv B</h2>
+        <h2 className="navbar-subject">Eng A</h2>
+        <h2 className="navbar-subject">Eng B</h2>
       </div>
     </nav>
   );

@@ -1,0 +1,124 @@
+#footer-separation-immage {
+    width: 100%;
+    height: 400px; 
+    background-image: url('./footer_img1.svg');
+    background-size: cover;
+    background-position: bottom; 
+    background-repeat: no-repeat;
+  
+}
+
+#footer-logo-img {
+  width: 60px;
+  border-radius: 100px;
+  transition: background-color 0.3s ease;
+  cursor: pointer;
+}
+
+.footer-main-wrap {
+  background-color: var(--primary-color);
+  font-family: var(--primary-font);
+}
+
+.footer-section-wrap {
+  display: flex;
+  flex-flow: row;
+  justify-content: space-between;
+  padding: 20px;
+  max-width: 1000px;
+}
+
+.footer-section-left-side-wrap{
+    
+}
+
+.footer-section-right-side-wrap{
+    width: 40%;
+}
+
+.footer-section-separator{
+    border: 1.3px solid var(--text-color-light);
+}
+
+.footer-logo-title-wrap {
+  height: 60px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  color: var(--text-color-light);
+}
+
+.footer-title,
+.footer-subtitle {
+  margin: 0px;
+  margin-left: 15px;
+}
+
+.footer-title {
+  font-size: var(--header-2-font-size);
+  font-weight: 800;
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.footer-subtitle {
+  font-size: var(--header-3-font-size);
+  font-weight: 600;
+  cursor: default;
+}
+
+.footer-base-information-wrap{
+    padding-top: 15px;
+}
+
+.footer-base-information{
+    margin-left: 10px;
+    color: var(--text-color-light);
+    font-size: var(--header-3-font-size);
+    font-weight: 300;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.footer-contact-information-wrap{
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--text-color-light);
+}
+
+.footer-contact-information-title{
+    margin: 0px;
+    font-size: var(--header-2-5-font-size);
+    color: var(--text-color-light);
+
+}
+
+.footer-contact-information-adresss-wrap{
+    color: var(--text-color-light);
+    font-family: var(--primary-font);
+    padding-left: 15px;
+}
+
+.footer-social-media-wrap{
+    display: flex;
+    flex-flow: row;   
+    padding-top: 10px; 
+}
+
+.footer-social-media-icon{
+    width: 40px;
+    padding-right: 10px;
+}
+
+#footer-logo-img:hover {
+  background-color: var(--text-color-hover-1);
+}
+
+.footer-title:hover {
+  color: var(--text-color-hover-1);
+}
+
+.footer-base-information:hover{
+    color: var(--text-color-hover-1);
+}
+
