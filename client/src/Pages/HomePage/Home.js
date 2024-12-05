@@ -11,10 +11,13 @@ const Home = () => {
     <main className='home-main-wrap'>
         <Header/>
         <Navbar/>
-        <section className='home-section-wrap-TEST'>
+        <section className='home-section-first-wrap'>
           hmm
         </section>
-        <section className='home-section-wrap-TEST'>
+        <section className='home-section-second-wrap'>
+          hmm
+        </section>
+        <section className='home-section-tird-wrap'>
           hmm
         </section>
         <Footer footerImmageClass={"footer1"}/>
