@@ -59,3 +59,9 @@
     display: flex;
   }
 }
+
+@media (min-width: 992px) {
+  .navbar-subject {
+    font-size: var(--header-2-5-font-size);
+  }
+}

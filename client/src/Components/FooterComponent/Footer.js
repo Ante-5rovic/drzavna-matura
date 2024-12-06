@@ -17,7 +17,8 @@ const Footer = ({footerImmageClass}) => {
             </div>
           </div>
           <div className="footer-base-information-wrap">
-            <h3 className="footer-base-information">Kako koristiti Maturka</h3>
+          <h3 className="footer-base-information">Što je Maturko?</h3>
+            <h3 className="footer-base-information">Kako koristiti Maturka?</h3>
             <h3 className="footer-base-information">Izborni predmeti</h3>
             <h3 className="footer-base-information">O nama</h3>
           </div>
