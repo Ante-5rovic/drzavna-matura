@@ -18,13 +18,13 @@ const Header = () => {
           </div>
         </div>
         <div className="header-registration-wrap">
-          <Link to="/" className="header-link">
+          <Link to="/login" className="header-link">
             <button id="header-button-login" className="header-button-design">
               Prijava
             </button>
           </Link>
           <h3>|</h3>
-          <Link to="/" className="header-link">
+          <Link to="/register" className="header-link">
             <button id="header-button-registe" className="header-button-design">
               Registracija
             </button>

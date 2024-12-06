@@ -10,7 +10,7 @@ const StillInDevelopment = () => {
   return (
     <section className='still-in-development-main-wrap'>
         <div id='still-in-development-top-ancor'></div>
-        <Header id='segment1' />
+        <Header/>
         <Navbar/>
         <div className='still-in-development-text-wrap'>
             <h1 className='still-in-development-title'>Ovaj predmet još nije dodan na stranicu.</h1>
