@@ -6,11 +6,13 @@ import './theme.css';
 import Home from "./Pages/HomePage/Home";
 import NotFound from "./Pages/ErrorPages/NotFound/NotFound";
 import StillInDevelopment from "./Pages/ErrorPages/StillInDevelopment/StillInDevelopment";
+import ScrollToTop from "./Components/_OtherAppRelatedComponents/ScrollToTop";
 
 
 function App() {
   return (
     <Router>
+      <ScrollToTop/>
       <Routes>
         {/*TO DO napraviti višestruke rute na istu komponentu na bolji nacin*/}
         <Route path="/" element={<Home />} />

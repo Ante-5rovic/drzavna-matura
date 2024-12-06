@@ -2,6 +2,7 @@ import React from "react";
 
 import "./footer.css";
 import Quotes from "./QuotesComponent/Quotes";
+import { Link } from "react-router-dom";
 
 const Footer = ({footerImmageClass}) => {
   return (
@@ -10,17 +11,18 @@ const Footer = ({footerImmageClass}) => {
       <section className="footer-section-wrap">
         <div className="footer-section-left-side-wrap">
           <div className="footer-logo-title-wrap">
-            <img id="footer-logo-img" src="/Images/Logo/logo2.png" alt="logo" />
+          <Link to="/#home-article-first-ancor"><img id="footer-logo-img" src="/Images/Logo/logo2.png" alt="logo" /></Link>
             <div className="footer-title-wrap">
-              <h1 className="footer-title">MATURKO</h1>
+            <Link to="/#home-article-first-ancor" className="footer-link"><h1 className="footer-title">MATURKO</h1></Link>
               <h2 className="footer-subtitle">Vježbaj maturu online</h2>
             </div>
           </div>
           <div className="footer-base-information-wrap">
-          <h3 className="footer-base-information">Što je Maturko?</h3>
-            <h3 className="footer-base-information">Kako koristiti Maturka?</h3>
-            <h3 className="footer-base-information">Izborni predmeti</h3>
-            <h3 className="footer-base-information">O nama</h3>
+            <Link to="/#home-article-first-ancor"><h3 className="footer-base-information">Što je Maturko?</h3></Link>
+            <Link to="/#home-article-second-ancor"><h3 className="footer-base-information">Kako koristiti Maturka?</h3></Link>
+            <Link to="/#home-article-tird-ancor"><h3 className="footer-base-information">Glavni predmeti</h3></Link>
+            <Link to="/#home-article-forth-ancor"><h3 className="footer-base-information">Izborni predmeti</h3></Link>
+            <Link to="/#home-article-fifth-ancor"><h3 className="footer-base-information">O nama</h3></Link>
           </div>
         </div>
         <div className="footer-section-separator"></div>
