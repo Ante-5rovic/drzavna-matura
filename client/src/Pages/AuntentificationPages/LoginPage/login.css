@@ -1,0 +1,105 @@
+#log-in-form {
+  width: 80%;
+  border: 5px solid var(--text-color-light);
+  border-radius: 30px;
+  padding: 20px;
+  max-width: 600px;
+  
+}
+
+#log-in-form-button{
+    border: 2px solid var(--text-color-light) ;
+    padding: 10px;
+    margin-top: 30px;
+    border-radius: 30px;
+    margin-bottom: 10px;
+    transition: color 0.3s ease, border 0.3s ease, border-radius 0.5s ease;
+}
+
+#log-in-google-button{
+    width: 40px;
+}
+
+.log-in-main-wrap {
+  background-color: var(--primary-color);
+}
+
+.log-in-section-wrap {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  width: 80%;
+  padding: 120px 10%;
+}
+
+.log-in-title {
+  margin-bottom: 70px;
+  font-size: var(--header-0-font-size);
+  color: var(--text-color-light);
+  font-family: var(--primary-font);
+}
+
+.log-in-form-button-wrap {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.log-in-form-componenet {
+  display: block;
+  margin: 10px 0px;
+  color: var(--text-color-light);
+  font-family: var(--primary-font);
+  background-color: transparent;
+  font-size: var(--header-2-5-font-size);
+  border: none;
+}
+
+.log-in-form-lable{
+    margin-top: 50px;
+}
+
+.log-in-form-input {
+  border-bottom: 2px solid var(--text-color-light);
+  width: 70%;
+}
+
+.log-in-google-button-wrap{
+    width: 60%; 
+    margin-top: 40px;
+    padding-left: 20px;
+    max-width: 400px;
+}
+
+.log-in-text-separator{
+    margin-top: 40px;
+    margin-bottom: 0px;
+}
+
+.log-in-form-input:focus,.log-in-form-input:valid,.log-in-form-input:invalid {
+  outline: none;
+  background-color: transparent !important;
+  color: var(--text-color-light);
+}
+
+#log-in-form-button:hover{
+    color: var(--text-color-hover-1);
+    border-color: var(--text-color-hover-1);
+    border-radius: 10px;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    -webkit-box-shadow: 0 0 0 30px #0f305b inset !important;
+    -webkit-text-fill-color: white !important;
+}
+
+@media (max-width: 576px) {
+    .log-in-section-wrap { 
+        padding: 60px 10%;
+    }
+  }
