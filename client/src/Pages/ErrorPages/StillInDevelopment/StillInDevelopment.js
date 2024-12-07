@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom'
 const StillInDevelopment = () => {
   return (
     <section className='still-in-development-main-wrap'>
+        <div id='still-in-development-top-ancor'></div>
         <Header/>
         <Navbar/>
         <div className='still-in-development-text-wrap'>

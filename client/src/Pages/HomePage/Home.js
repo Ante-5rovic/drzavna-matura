@@ -13,6 +13,7 @@ const Home = () => {
       <Header />
       <Navbar />
       <div className="home-article-wrap">
+        <div id='home-article-first-ancor'></div>
         <article className="home-article-first-wrap home-article">
           <h1 className="home-paragraf-title">Što je Maturko?</h1>
           <p className="home-paragraf-text">
@@ -23,6 +24,7 @@ const Home = () => {
           </p>
         </article>
         <div className="home-artivle-separator"></div>
+        <div id='home-article-second-ancor'></div>
         <article className="home-article-second-wrap home-article">
           <h1 className="home-paragraf-title">Kako koristiti Maturka?</h1>
           <p className="home-paragraf-text">
@@ -34,6 +36,7 @@ const Home = () => {
           </p>
         </article>
         <div className="home-artivle-separator"></div>
+        <div id='home-article-tird-ancor'></div>
         <article className="home-article-tird-wrap home-article">
           <h1 className="home-paragraf-title">Glavni predemti</h1>
           <SubjectListComponent subject={"glavniPredmeti"}/>
@@ -42,7 +45,8 @@ const Home = () => {
           </p>
         </article>
         <div className="home-artivle-separator"></div>
-        <article className="home-article-tird-wrap home-article">
+        <div id='home-article-forth-ancor'></div>
+        <article className="home-article-forth-wrap home-article">
           <h1 className="home-paragraf-title">Izborni predemti</h1>
           <SubjectListComponent subject={"izborniPredemti"}/>
           <p className="home-paragraf-text">
@@ -50,7 +54,8 @@ const Home = () => {
           </p>
         </article>
         <div className="home-artivle-separator"></div>
-        <article className="home-article-forth-wrap home-article">
+        <div id='home-article-fifth-ancor'></div>
+        <article className="home-article-fifth-wrap home-article">
           <h1 className="home-paragraf-title">O nama</h1>
           <p className="home-paragraf-text">
             Mi smo skupina studenata Fera koja je odlučila razviti web aplikaciju za pomoć pripremi državne mature.
