@@ -39,7 +39,7 @@ const Login = () => {
             htmlFor="username"
             className="log-in-form-lable log-in-form-componenet"
           >
-            Korisničko ime / email
+            Email:
           </label>
           <input
             type="text"
@@ -55,7 +55,7 @@ const Login = () => {
             htmlFor="password"
             className="log-in-form-lable log-in-form-componenet"
           >
-            Lozinka
+            Lozinka:
           </label>
           <input
             type="password"
