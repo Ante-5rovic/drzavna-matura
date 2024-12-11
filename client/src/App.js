@@ -9,7 +9,7 @@ import StillInDevelopment from "./Pages/ErrorPages/StillInDevelopment/StillInDev
 import ScrollToTop from "./Components/_OtherAppRelatedComponents/ScrollToTop";
 import Login from "./Pages/AuntentificationPages/LoginPage/Login";
 import Register from "./Pages/AuntentificationPages/RegisterPage/Register";
-
+import MaturaList from "./Pages/MaturaListPage/MaturaList";
 
 function App() {
   return (
@@ -24,6 +24,7 @@ function App() {
         <Route path="/StillInDevelopment.html" element={<StillInDevelopment />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register />} />
+        <Route path="/matura/:imePredmeta/:razinaPredmeta" element={<MaturaList />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
