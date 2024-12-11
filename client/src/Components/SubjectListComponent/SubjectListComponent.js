@@ -7,37 +7,37 @@ const glavniPredmeti = [
     src: "eng-A.svg",
     alt: "Eng-A",
     title: "Engleski-A",
-    link: "/StillInDevelopment#still-in-development-top-ancor",
+    link: "/matura/engleski/visa",
   },
   {
     src: "mat-A.svg",
     alt: "Mat-A",
     title: "Matematika-A",
-    link: "/StillInDevelopment#still-in-development-top-ancor",
+    link: "/matura/matematika/visa",
   },
   {
     src: "hrv-A.svg",
     alt: "Hrv-A",
     title: "Hrvatski-A",
-    link: "/StillInDevelopment#still-in-development-top-ancor",
+    link: "/matura/hrvatski/visa",
   },
   {
     src: "eng-B.svg",
     alt: "Eng-B",
     title: "Engleski-B",
-    link: "/StillInDevelopment#still-in-development-top-ancor",
+    link: "/matura/engleski/niza",
   },
   {
     src: "mat-B.svg",
     alt: "Mat-B",
     title: "Matematika-B",
-    link: "/StillInDevelopment#still-in-development-top-ancor",
+    link: "/matura/matematika/niza",
   },
   {
     src: "hrv-B.svg",
     alt: "Hrv-B",
     title: "Hrvatski-B",
-    link: "/StillInDevelopment#still-in-development-top-ancor",
+    link: "/matura/hrvatski/niza",
   },
 ];
 const izborniPredemti = [
