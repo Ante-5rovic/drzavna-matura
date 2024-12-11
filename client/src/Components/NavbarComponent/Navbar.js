@@ -6,42 +6,42 @@ const Navbar = () => {
   return (
     <nav className="navbar-main-wrap">
       <div className="navbar-subjects-pc-wrap">
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
-          <h2 className="navbar-subject">Matematika viša</h2>
-        </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
-          <h2 className="navbar-subject">Matematika niža</h2>
-        </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
+        <Link to="/matura/hrvatski/visa" className="navbar-subject-link">
           <h2 className="navbar-subject">Hrvatski viša</h2>
         </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
+        <Link to="/matura/hrvatski/niza" className="navbar-subject-link">
           <h2 className="navbar-subject">Hrvatski niža</h2>
         </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
+        <Link to="/matura/matematika/visa" className="navbar-subject-link">
+          <h2 className="navbar-subject">Matematika viša</h2>
+        </Link>
+        <Link to="/matura/matematika/niza" className="navbar-subject-link">
+          <h2 className="navbar-subject">Matematika niža</h2>
+        </Link>
+        <Link to="/matura/engleski/visa" className="navbar-subject-link">
           <h2 className="navbar-subject">Engleski viša</h2>
         </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
+        <Link to="/matura/engleski/niza" className="navbar-subject-link">
           <h2 className="navbar-subject">Engleski niža</h2>
         </Link>
       </div>
       <div className="navbar-subjects-phone-wrap">
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
-          <h2 className="navbar-subject">Mat A</h2>
-        </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
-          <h2 className="navbar-subject">Mat B</h2>
-        </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
+        <Link to="/matura/hrvatski/visa" className="navbar-subject-link">
           <h2 className="navbar-subject">Hrv A</h2>
         </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
+        <Link to="/matura/hrvatski/niza" className="navbar-subject-link">
           <h2 className="navbar-subject">Hrv B</h2>
         </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
+        <Link to="/matura/matematika/visa" className="navbar-subject-link">
+          <h2 className="navbar-subject">Mat A</h2>
+        </Link>
+        <Link to="/matura/matematika/niza" className="navbar-subject-link">
+          <h2 className="navbar-subject">Mat B</h2>
+        </Link>
+        <Link to="/matura/engleski/visa" className="navbar-subject-link">
           <h2 className="navbar-subject">Eng A</h2>
         </Link>
-        <Link to="/StillInDevelopment" className="navbar-subject-link">
+        <Link to="/matura/engleski/niza" className="navbar-subject-link">
           <h2 className="navbar-subject">Eng B</h2>
         </Link>
       </div>

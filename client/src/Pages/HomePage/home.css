@@ -28,3 +28,9 @@
   border: solid 2px var(--secondary-color);
   border-radius: 100px;
 }
+
+@media (max-width: 992px) {
+  .home-paragraf-title {
+    font-size: var(--header-0-font-size-responsiv);
+  }
+}
