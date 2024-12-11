@@ -43,17 +43,17 @@ const Footer = ({footerImmageClass}) => {
             <div className="footer-social-media-wrap">
               <img
                 className="footer-social-media-icon"
-                src="Images\Footer\Social media\icons8-facebook.svg"
+                src="/Images/Footer/Social-media/icons8-facebook.svg"
                 alt="facebook link"
               />
               <img
                 className="footer-social-media-icon"
-                src="Images\Footer\Social media\icons8-instagram.svg"
+                src="/Images/Footer/Social-media/icons8-instagram.svg"
                 alt="instagarm link"
               />
               <img
                 className="footer-social-media-icon"
-                src="Images\Footer\Social media\icons8-linkedin.svg"
+                src="/Images/Footer/Social-media/icons8-linkedin.svg"
                 alt="linkedin link"
               />
             </div>

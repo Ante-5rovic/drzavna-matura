@@ -24,6 +24,7 @@ function App() {
         <Route path="/StillInDevelopment.html" element={<StillInDevelopment />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register />} />
+        <Route path="/matura/:imePredmeta" element={<MaturaList />} />
         <Route path="/matura/:imePredmeta/:razinaPredmeta" element={<MaturaList />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
