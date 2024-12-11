@@ -1,4 +1,5 @@
 import React from "react";
+import './subjectTitle.css'
 
 const SubjectTitle = ({ imePredmeta, razinaPredmeta }) => {
   const capitalizeFirstLetter = (str) => {
@@ -16,12 +17,12 @@ const SubjectTitle = ({ imePredmeta, razinaPredmeta }) => {
   const formattedRazinaPredmeta = formatRazinaPredmeta(razinaPredmeta);
 
   if (formattedImePredmeta === "") {
-    return <h1>Loading...</h1>;
+    return <h1 className="subject-title-main-wrap">Loading...</h1>;
   } else if (formattedRazinaPredmeta === "") {
-    return <h1>{formattedImePredmeta}</h1>;
+    return <h1 className="subject-title-main-wrap">{formattedImePredmeta}</h1>;
   } else {
     return (
-      <h1>
+      <h1 className="subject-title-main-wrap">
         {formattedImePredmeta} {formattedRazinaPredmeta}
       </h1>
     );

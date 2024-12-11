@@ -14,7 +14,8 @@
   --secondary-quotes: 'Great Vibes', cursive;
 
   /* Velicina Fonat */
-  --header-0-font-size: 40px;
+  --header-0-font-size: 60px;
+  --header-0-font-size-responsiv: 40px;
   --header-1-font-size: 28px;
   --header-2-font-size: 25px;
   --header-2-5-font-size: 20px;

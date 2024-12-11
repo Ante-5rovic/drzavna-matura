@@ -14,8 +14,11 @@ const MaturaList = () => {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [imePredmetaTitle, setImePredmetaTitle] = useState("");
+  const [razinaPredmetaTitle, setRazinaPredmetaTitle] = useState("");
 
   useEffect(() => {
+    setLoading(true);
     if (imePredmeta !== null && razinaPredmeta !== null) {
       const fetchData = async () => {
         try {
@@ -37,6 +40,8 @@ const MaturaList = () => {
           );
 
           const [result] = await Promise.all([fetchPromise, delayPromise]);
+          setImePredmetaTitle(imePredmeta);
+          setRazinaPredmetaTitle(razinaPredmeta);
           setData(result);
         } catch (error) {
           setError(error.message);
@@ -71,8 +76,8 @@ const MaturaList = () => {
           }`}
         >
           <SubjectTitle
-            imePredmeta={imePredmeta}
-            razinaPredmeta={razinaPredmeta}
+            imePredmeta={imePredmetaTitle}
+            razinaPredmeta={razinaPredmetaTitle}
           />
           <ExamList data={data} />
         </div>
