@@ -1,5 +1,4 @@
-require('dotenv').config(); // Učitavanje postavki iz .env datoteke
-
+require('dotenv').config();
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -11,14 +10,6 @@ const pool = new Pool({
   ssl: {
     rejectUnauthorized: false
   }
-});
-
-pool.on('connect', () => {
-  console.log('Uspješna veza s bazom podataka!');
-});
-
-pool.on('error', (err) => {
-  console.error('Greška s vezom na bazu:', err);
 });
 
 module.exports = pool;
