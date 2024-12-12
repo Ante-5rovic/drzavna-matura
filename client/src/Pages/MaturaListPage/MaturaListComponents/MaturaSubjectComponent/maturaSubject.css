@@ -1,0 +1,9 @@
+.matura-subject-separator {
+  width: 100%;
+  border: solid 2px var(--secondary-color);
+  border-radius: 100px;
+}
+
+.matura-subject-section-wrap {
+    margin: 100px 0px
+}

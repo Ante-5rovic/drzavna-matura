@@ -4,10 +4,10 @@ import Header from "../../Components/HeaderComponent/Header";
 import Navbar from "../../Components/NavbarComponent/Navbar";
 import Footer from "../../Components/FooterComponent/Footer";
 import NotFound from "../ErrorPages/NotFound/NotFound";
-import ExamList from "./MaturaListComponents/ExamListComponent/ExamList";
 import SubjectTitle from "../../Components/SubjectTitleComponent/SubjectTitle";
 import LoadingScreen from "../../Components/LoadingScreenComponent/LoadingScreen";
 import "./maturaList.css";
+import MaturaSubject from "./MaturaListComponents/MaturaSubjectComponent/MaturaSubject";
 
 const MaturaList = () => {
   const { imePredmeta, razinaPredmeta } = useParams(null, null);
@@ -25,9 +25,9 @@ const MaturaList = () => {
           const fetchPromise = (async () => {
             var response;
             if (razinaPredmeta === null) {
-              response = await fetch(`/${imePredmeta}`);
+              response = await fetch(`/mature/${imePredmeta}`);
             } else {
-              response = await fetch(`/${imePredmeta}/${razinaPredmeta}`);
+              response = await fetch(`/mature/${imePredmeta}/${razinaPredmeta}`);
             }
             if (!response.ok) {
               throw new Error("Greška u dohvaćanju podataka");
@@ -79,7 +79,8 @@ const MaturaList = () => {
             imePredmeta={imePredmetaTitle}
             razinaPredmeta={razinaPredmetaTitle}
           />
-          <ExamList data={data} />
+          <MaturaSubject data={data}/>
+          
         </div>
       </main>
       <Footer footerImmageClass={"footer1"} />

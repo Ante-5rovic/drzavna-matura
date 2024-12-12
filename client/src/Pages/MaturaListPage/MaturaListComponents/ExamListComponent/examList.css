@@ -1,0 +1,37 @@
+.exam-list-title {
+  font-size: var(--header-0-5-font-size);
+  font-family: var(--primary-font);
+  color: var(--text-color-dark);
+}
+
+.exam-list-link {
+  color: var(--secondary-color);
+  font-size: var(--header-2-5-font-size);
+  transition: color 0.3s ease;
+  text-decoration: none;
+}
+
+.exam-list-subtitle{
+  font-size: var(--header-2-font-size);
+  font-family: var(--primary-font);
+  color: var(--text-color-dark);
+  padding-left: 15px;
+}
+
+.exam-list-link:hover {
+  color: var(--text-color-hover-1);
+}
+
+@media (max-width: 992px) {
+  .exam-list-title {
+    font-size: var(--header-1-font-size);
+  }
+
+  .exam-list-link {
+    font-size: var(--header-3-font-size);
+  }
+
+  .exam-list-subtitle{
+    font-size: var(--header-2-5-font-size);
+  }
+}
