@@ -6,14 +6,14 @@ const pool = require('../db');
 
 //Ruta za login
 router.post('/', async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
     try {
         //Dohvat korisnika iz baze
-        const result = await pool.query('SELECT * FROM users WHERE email = $1', [username]);
-
+        const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+        console.log(email)
         if (result.rows.length === 0) {
-            return res.status(401).json({ error: 'Neispravan email  ili lozinka.' });
+            return res.status(401).json({ error: 'Neispravan email  ili lozinka.MALOOOO' });
         }
 
         const user = result.rows[0];
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
         const match = await bcrypt.compare(password, user.password_hash);
 
         if (!match) {
-            return res.status(401).json({ error: 'Neispravan email ili lozinka.' });
+            return res.status(401).json({ error: 'Neispravan email ili lozinka.ALOOOO' });
         }
 
         //Generiranje JWT tokena
