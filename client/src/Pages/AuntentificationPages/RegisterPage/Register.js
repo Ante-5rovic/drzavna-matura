@@ -4,10 +4,12 @@ import Navbar from "../../../Components/NavbarComponent/Navbar";
 import Header from "../../../Components/HeaderComponent/Header";
 import Footer from "../../../Components/FooterComponent/Footer";
 import GoogleLoginButton from "../LoginPage/LoginPageComponents/GoogleLoginComponent/GoogleLoginButton";
+import useCsrfToken from '../../../Hooks/useCsrfToken';
 
 import "./register.css";
 
 const Register = () => {
+  const csrfToken = useCsrfToken();
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -84,6 +86,40 @@ const Register = () => {
         // Salji na backend <---- TO DO
         setErrorMsg("");
         console.log("Submitted Data:", formData);
+        
+        fetch('/register', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'X-CSRF-Token': csrfToken
+          },
+          body: JSON.stringify(formData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                if (response.status >= 400) {
+                    return response.json().then(data => {
+                        throw new Error(data.error);
+                    });
+                } else {
+                    throw new Error('Došlo je do greške prilikom registracije.');
+                }
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Uspješna registracija!', data);
+            setFormData({
+                username: '',
+                email: '',
+                password: '',
+                passwordRepeat: ''
+            });
+        })
+        .catch(error => {
+            console.error('Greška:', error);
+            setErrorMsg(error.message);
+        });
       }
     }
   };

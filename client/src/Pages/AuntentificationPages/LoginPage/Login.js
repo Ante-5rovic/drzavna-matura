@@ -4,14 +4,19 @@ import Navbar from "../../../Components/NavbarComponent/Navbar";
 import Header from "../../../Components/HeaderComponent/Header";
 import Footer from "../../../Components/FooterComponent/Footer";
 import GoogleLoginButton from "./LoginPageComponents/GoogleLoginComponent/GoogleLoginButton";
-
+import useCsrfToken from '../../../Hooks/useCsrfToken';
+import { useNavigate } from 'react-router-dom';
 import "./login.css";
 
 const Login = () => {
+  const csrfToken = useCsrfToken();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
   });
+
+  const [errorMsg, setErrorMsg] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,9 +28,38 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
     console.log("Submitted Data:", formData);
     // Naša interna prijava!
     // Pošalji formData backendu ili izvrši drugu akciju
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': csrfToken
+      },
+      body: JSON.stringify(formData)
+    })
+    .then(response => {
+      if (!response.ok) {
+        if (response.status === 401) {
+          return response.json().then(data => {
+            throw new Error(data.error);
+          });
+        } else {
+          throw new Error('Došlo je do greške prilikom prijave.');
+        }
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log('Uspješna prijava!', data);
+      navigate('/');
+    })
+    .catch(error => {
+      console.error('Greška:', error);
+      setErrorMsg(error.message); 
+    });
   };
 
   return (
@@ -34,11 +68,13 @@ const Login = () => {
       <Navbar />
       <section className="log-in-section-wrap">
         <h1 className="log-in-title">Dobrodošli na Maturka</h1>
+
+        {errorMsg && <p className="log-in-error-msg">{errorMsg}</p>}
+
         <form onSubmit={handleSubmit} id="log-in-form">
           <label
-            htmlFor="username"
-            className="log-in-form-lable log-in-form-componenet"
-          >
+            htmlFor="email"
+            className="log-in-form-lable log-in-form-componenet">
             Email:
           </label>
           <input
