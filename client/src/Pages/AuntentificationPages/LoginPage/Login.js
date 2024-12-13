@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useContext  } from "react";
 
 import Navbar from "../../../Components/NavbarComponent/Navbar";
 import Header from "../../../Components/HeaderComponent/Header";
@@ -6,6 +6,7 @@ import Footer from "../../../Components/FooterComponent/Footer";
 import GoogleLoginButton from "./LoginPageComponents/GoogleLoginComponent/GoogleLoginButton";
 import useCsrfToken from '../../../Hooks/useCsrfToken';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from "../../../Components/_OtherAppRelatedComponents/AuthContext";
 import "./login.css";
 
 const Login = () => {
@@ -14,6 +15,7 @@ const Login = () => {
     email: "",
     password: "",
   });
+  const { login } = useContext(AuthContext);
 
   const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
@@ -29,7 +31,7 @@ const Login = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    console.log("Submitted Data:", formData);
+    //console.log("Submitted Data:", formData);
     // Naša interna prijava!
     // Pošalji formData backendu ili izvrši drugu akciju
     fetch('/login', {
@@ -53,6 +55,7 @@ const Login = () => {
       return response.json();
     })
     .then(data => {
+      login(data)
       console.log('Uspješna prijava!', data);
       navigate('/');
     })
