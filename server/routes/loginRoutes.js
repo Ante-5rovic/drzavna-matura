@@ -11,9 +11,8 @@ router.post('/', async (req, res) => {
     try {
         //Dohvat korisnika iz baze
         const result = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
-        console.log(email)
         if (result.rows.length === 0) {
-            return res.status(401).json({ error: 'Neispravan email  ili lozinka.MALOOOO' });
+            return res.status(401).json({ error: 'Neispravan email  ili lozinka.' });
         }
 
         const user = result.rows[0];
@@ -22,7 +21,7 @@ router.post('/', async (req, res) => {
         const match = await bcrypt.compare(password, user.password_hash);
 
         if (!match) {
-            return res.status(401).json({ error: 'Neispravan email ili lozinka.ALOOOO' });
+            return res.status(401).json({ error: 'Neispravan email ili lozinka.' });
         }
 
         //Generiranje JWT tokena
@@ -40,8 +39,16 @@ router.post('/', async (req, res) => {
             maxAge: 60 * 60 * 1000 //1h
         });
 
-        res.status(200).json({ message: 'Uspješna prijava!' });
-
+            // Vraćanje podataka o korisniku
+        res.status(200).json({
+            message: 'Uspješna prijava!',
+            user: {
+            username: user.username,
+            email: user.email,
+            role: user.role
+            }
+        });
+  
     } catch (err) {
         console.error('Greška pri prijavi:', err);
         res.status(500).json({ error: 'Došlo je do greške prilikom prijave.' });
