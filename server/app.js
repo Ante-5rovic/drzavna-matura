@@ -3,6 +3,7 @@ const app = express();
 const port = 3000;
 const csrf = require('csurf');
 const cookieParser = require('cookie-parser');
+const logoutRoutes = require('./routes/logoutRoutes');
 
 //Rute
 const examRoutes = require('./routes/examRoutes');
@@ -20,7 +21,8 @@ const csrfProtection = csrf({ cookie: true });
 app.use('/exam', examRoutes);
 app.use('/mature', maturaRoutes);
 app.use('/register', csrfProtection, registrationRoutes);
-app.use('/login', loginRoutes);
+app.use('/login', csrfProtection, loginRoutes);
+app.use('/logout', csrfProtection, logoutRoutes);
 app.get('/csrf-token', csrfProtection, (req, res) => {
     res.json({ csrfToken: req.csrfToken() });
 });

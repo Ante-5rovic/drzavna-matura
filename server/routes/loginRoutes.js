@@ -10,10 +10,10 @@ router.post('/', async (req, res) => {
 
     try {
         //Dohvat korisnika iz baze
-        const result = await pool.query('SELECT * FROM users WHERE username = $1', [username]);
+        const result = await pool.query('SELECT * FROM users WHERE email = $1', [username]);
 
         if (result.rows.length === 0) {
-            return res.status(401).json({ error: 'Neispravno korisničko ime ili lozinka.' });
+            return res.status(401).json({ error: 'Neispravan email  ili lozinka.' });
         }
 
         const user = result.rows[0];
@@ -22,7 +22,7 @@ router.post('/', async (req, res) => {
         const match = await bcrypt.compare(password, user.password_hash);
 
         if (!match) {
-            return res.status(401).json({ error: 'Neispravno korisničko ime ili lozinka.' });
+            return res.status(401).json({ error: 'Neispravan email ili lozinka.' });
         }
 
         //Generiranje JWT tokena
