@@ -22,7 +22,7 @@
   }
 
   #register-form-error-msg{
-    color: red;
+    color: var(--text-color-error);
   }
   
   .register-main-wrap {

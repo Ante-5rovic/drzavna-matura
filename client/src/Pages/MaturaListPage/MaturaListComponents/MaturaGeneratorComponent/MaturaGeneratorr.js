@@ -2,7 +2,9 @@ import React from 'react'
 
 const MaturaGeneratorr = () => {
   return (
-    <div>MaturaGeneratorr</div>
+    <section>
+      MaturaGeneratorr
+    </section>
   )
 }
 

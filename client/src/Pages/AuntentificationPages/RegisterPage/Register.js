@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 
 import Navbar from "../../../Components/NavbarComponent/Navbar";
 import Header from "../../../Components/HeaderComponent/Header";
@@ -6,7 +7,9 @@ import Footer from "../../../Components/FooterComponent/Footer";
 import GoogleLoginButton from "../LoginPage/LoginPageComponents/GoogleLoginComponent/GoogleLoginButton";
 import useCsrfToken from '../../../Hooks/useCsrfToken';
 
+
 import "./register.css";
+import PopUp from "../../../Components/PopUpComponent/PopUp";
 
 const Register = () => {
   const csrfToken = useCsrfToken();
@@ -17,6 +20,8 @@ const Register = () => {
     passwordRepeat: "",
   });
   const [errorMsg, setErrorMsg] = useState("");
+  const [isPopupOpen, setPopupOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -109,12 +114,14 @@ const Register = () => {
         })
         .then(data => {
             console.log('Uspješna registracija!', data);
+            setPopupOpen(true); //POPUP
             setFormData({
                 username: '',
                 email: '',
                 password: '',
                 passwordRepeat: ''
             });
+            
         })
         .catch(error => {
             console.error('Greška:', error);
@@ -130,11 +137,17 @@ const Register = () => {
       element.style.borderBottom = "2px solid red";
     }
   };
+
   const changeBorderOnFocus = (elementId) => {
     const element = document.getElementById("register-"+elementId);
     if (element) {
       element.style.borderBottom = "2px solid white";
     }
+  };
+
+  const handleClosePopup = () => {
+    setPopupOpen(false);
+    navigate('/login');
   };
 
   return (
@@ -238,6 +251,11 @@ const Register = () => {
           <GoogleLoginButton />
         </div>
       </section>
+      <PopUp 
+        isOpen={isPopupOpen}
+        onClose={handleClosePopup}
+        message="Poslan vam je email. Da bi ste potvrdili registraciju klikniute na poveznicu u njemu"
+      />
       <Footer footerImmageClass={"footer2"} />
     </div>
   );
