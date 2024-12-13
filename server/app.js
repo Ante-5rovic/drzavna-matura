@@ -10,6 +10,7 @@ const examRoutes = require('./routes/examRoutes');
 const maturaRoutes = require('./routes/maturaListRoutes');
 const registrationRoutes = require('./routes/registrationRoutes');
 const loginRoutes = require('./routes/loginRoutes');
+const getUserData = require('./routes/getUserData');
 
 //Middleware
 app.use(express.json());
@@ -26,6 +27,7 @@ app.use('/logout', csrfProtection, logoutRoutes);
 app.get('/csrf-token', csrfProtection, (req, res) => {
     res.json({ csrfToken: req.csrfToken() });
 });
+app.use('/get-user-data', getUserData);
 
 app.listen(port, () => {
   console.log(`Server pokrenut na http://localhost:${port}`);

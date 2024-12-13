@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../Components/_OtherAppRelatedComponents/AuthContext"; //TEST!!!!
 
 import "./home.css";
 
@@ -8,6 +9,15 @@ import Footer from "../../Components/FooterComponent/Footer";
 import SubjectListComponent from "../../Components/SubjectListComponent/SubjectListComponent";
 
 const Home = () => {
+
+  const { authState } = useContext(AuthContext);
+  //TESTT!!!!
+  console.log(authState.email)
+  console.log(authState.username)
+  console.log(authState.role)
+
+
+
   return (
     <main className="home-main-wrap">
       <Header />
