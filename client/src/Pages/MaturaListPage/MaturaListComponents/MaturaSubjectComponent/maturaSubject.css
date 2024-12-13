@@ -7,3 +7,58 @@
 .matura-subject-section-wrap {
     margin: 100px 0px
 }
+
+
+.matura-subject-checkbox-title {
+  font-size: var(--header-0-5-font-size);
+  font-family: var(--primary-font);
+  color: var(--text-color-dark);
+}
+
+.matura-subject-checkbox-subtitle{
+  font-size: var(--header-2-font-size);
+  font-family: var(--secondary-font);
+  color: var(--text-color-dark);
+  font-weight: 400;
+  margin-left: 15px;
+}
+
+.matura-subject-checkbox-simulation-text {
+  display: inline-block;
+  font-size: var(--header-2-font-size);
+  font-family: var(--secondary-font);
+  color: var(--text-color-dark);
+  font-weight: 400;
+  transition: color 0.5s ease, border 0.5s ease ;
+}
+
+/* TO DO treba ispraviti boje i standardizirati ih!!!!!!!!*/
+.matura-subject-checkbox-simulation-text.active {
+  color: green;
+  border-bottom: 2px solid green;
+}
+
+.matura-subject-checkbox-simulation-text:not(.active) {
+  color: red;
+  border-bottom: 2px solid red;
+}
+
+.matura-subject-checkbox-simulation-text.active:hover {
+  color: var(--text-color-error);
+  border-color: var(--text-color-error);
+}
+
+.matura-subject-checkbox-simulation-text:not(.active):hover {
+  color: var(--text-color-error);
+  border-color: var(--text-color-error);
+}
+
+@media (max-width: 992px) {
+  .matura-subject-checkbox-title {
+    font-size: var(--header-1-font-size);
+  }
+
+  .matura-subject-checkbox-subtitle{
+    font-size: var(--header-2-5-font-size);
+  }
+}

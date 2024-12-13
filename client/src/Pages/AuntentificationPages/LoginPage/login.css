@@ -21,6 +21,10 @@
     width: 40px;
 }
 
+#log-in-form-error-msg{
+  color: var(--text-color-error);
+}
+
 .log-in-main-wrap {
   background-color: var(--primary-color);
 }
@@ -79,16 +83,25 @@
     margin-bottom: 0px;
 }
 
+.log-in-form-error-msg {
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.log-in-form-error-msg.show {
+  opacity: 1;
+}
+
+#log-in-form-button:hover{
+  color: var(--text-color-hover-1);
+  border-color: var(--text-color-hover-1);
+  border-radius: 10px;
+}
+
 .log-in-form-input:focus,.log-in-form-input:valid,.log-in-form-input:invalid {
   outline: none;
   background-color: transparent !important;
   color: var(--text-color-light);
-}
-
-#log-in-form-button:hover{
-    color: var(--text-color-hover-1);
-    border-color: var(--text-color-hover-1);
-    border-radius: 10px;
 }
 
 input:-webkit-autofill,

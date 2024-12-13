@@ -11,7 +11,7 @@ import "./login.css";
 const Login = () => {
   const csrfToken = useCsrfToken();
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -69,8 +69,6 @@ const Login = () => {
       <section className="log-in-section-wrap">
         <h1 className="log-in-title">Dobrodošli na Maturka</h1>
 
-        {errorMsg && <p className="log-in-error-msg">{errorMsg}</p>}
-
         <form onSubmit={handleSubmit} id="log-in-form">
           <label
             htmlFor="email"
@@ -79,10 +77,10 @@ const Login = () => {
           </label>
           <input
             type="text"
-            id="log-in-username"
+            id="log-in-email"
             className="log-in-form-componenet log-in-form-input"
-            name="username"
-            value={formData.username}
+            name="email"
+            value={formData.email}
             onChange={handleChange}
             required
           />
@@ -102,6 +100,14 @@ const Login = () => {
             onChange={handleChange}
             required
           />
+          <label
+            id="log-in-form-error-msg"
+            className={`log-in-form-lable log-in-form-componenet log-in-form-error-msg ${
+              errorMsg ? "show" : ""
+            }`}
+          >
+            {errorMsg}
+          </label>
           <div className="log-in-form-button-wrap">
             <button
               type="submit"
