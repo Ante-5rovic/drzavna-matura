@@ -21,7 +21,7 @@
   font-family: var(--primary-font);
   color: var(--text-color-light);
   font-weight: 500;
-  transition: color 0.3s ease;
+  transition: color 0.3s ease,transform 0.3s ease;
 }
 
 .navbar-subjects-phone-wrap {
@@ -34,6 +34,7 @@
 
 .navbar-subject:hover {
   color: var(--text-color-hover-1);
+  transform: scale(1.1);
 }
 
 @media (max-width: 576px) {

@@ -44,13 +44,14 @@
 }
 
 .matura-subject-checkbox-simulation-text.active:hover {
-  color: var(--text-color-error);
-  border-color: var(--text-color-error);
+  
+  color: rgb(163, 208, 163);
+  border-color: rgb(163, 208, 163);
 }
 
 .matura-subject-checkbox-simulation-text:not(.active):hover {
-  color: var(--text-color-error);
-  border-color: var(--text-color-error);
+  color: rgb(232, 152, 152);
+  border-color: rgb(232, 152, 152);
 }
 
 @media (max-width: 992px) {

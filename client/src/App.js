@@ -10,6 +10,7 @@ import ScrollToTop from "./Components/_OtherAppRelatedComponents/ScrollToTop";
 import Login from "./Pages/AuntentificationPages/LoginPage/Login";
 import Register from "./Pages/AuntentificationPages/RegisterPage/Register";
 import MaturaList from "./Pages/MaturaListPage/MaturaList";
+import Profile from "./Pages/AuntentificationPages/ProfilePage/Profile";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/StillInDevelopment.html" element={<StillInDevelopment />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register />} />
+        <Route path="//user-profil" element={<Profile />} />
         <Route path="/matura/:imePredmeta" element={<MaturaList />} />
         <Route path="/matura/:imePredmeta/:razinaPredmeta" element={<MaturaList />} />
         <Route path="*" element={<NotFound />} />
