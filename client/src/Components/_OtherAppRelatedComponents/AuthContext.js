@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
   const login = (data) => {
     // Kasnije ce trebati promjeniti kad dojdu druge role
     setAuthState({
-      token: null, //<--------------- treba i njega dodati!!
+      token: true, //<--------------- ubiti koristicemo true kada je korisnik prijaveljen!!!
       email: data.user.email,
       username: data.user.username,
       role: data.user.role,
