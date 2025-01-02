@@ -79,7 +79,7 @@ const MaturaList = () => {
             imePredmeta={imePredmetaTitle}
             razinaPredmeta={razinaPredmetaTitle}
           />
-          <MaturaSubject data={data}/>
+          <MaturaSubject data={data} imePredmeta={imePredmeta} razinaPredmeta={razinaPredmetaTitle}/>
           
         </div>
       </main>
