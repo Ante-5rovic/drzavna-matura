@@ -1,0 +1,6 @@
+.exam-subject-wrap-generic-main-wrap{
+    display: flex;
+    flex-flow: column;
+    justify-content: start;
+    align-items: center;
+}

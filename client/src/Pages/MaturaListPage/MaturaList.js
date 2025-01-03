@@ -20,6 +20,7 @@ const MaturaList = () => {
   useEffect(() => {
     setLoading(true);
     if (imePredmeta !== null && razinaPredmeta !== null) {
+      console.log(imePredmeta + " " + razinaPredmeta)
       const fetchData = async () => {
         try {
           const fetchPromise = (async () => {
@@ -79,7 +80,7 @@ const MaturaList = () => {
             imePredmeta={imePredmetaTitle}
             razinaPredmeta={razinaPredmetaTitle}
           />
-          <MaturaSubject data={data}/>
+          <MaturaSubject data={data} imePredmeta={imePredmeta} razinaPredmeta={razinaPredmetaTitle}/>
           
         </div>
       </main>

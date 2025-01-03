@@ -9,13 +9,13 @@
 }
 
 
-.matura-subject-checkbox-title {
+.matura-subject-section-title {
   font-size: var(--header-0-5-font-size);
   font-family: var(--primary-font);
   color: var(--text-color-dark);
 }
 
-.matura-subject-checkbox-subtitle{
+.matura-subject-section-subtitle{
   font-size: var(--header-2-font-size);
   font-family: var(--secondary-font);
   color: var(--text-color-dark);
