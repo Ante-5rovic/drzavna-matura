@@ -1,0 +1,23 @@
+.maturko-text-main-wrap {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: start;
+  align-items: center;
+  margin-bottom: 150px;
+}
+.maturko-text-title {
+  font-size: var(--header-1-font-size);
+  font-family: var(--primary-font);
+  color: var(--text-color-dark);
+  text-align: center;
+  margin: 40px;
+  cursor: default;
+}
+.maturko-text-subtitle {
+  width: 70%;
+  font-size: var(--header-2-5-font-size);
+  font-family: var(--secondary-font);
+  color: var(--text-color-dark);
+  cursor: default;
+}

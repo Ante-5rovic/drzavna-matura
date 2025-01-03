@@ -11,6 +11,7 @@ import Login from "./Pages/AuntentificationPages/LoginPage/Login";
 import Register from "./Pages/AuntentificationPages/RegisterPage/Register";
 import MaturaList from "./Pages/MaturaListPage/MaturaList";
 import Profile from "./Pages/AuntentificationPages/ProfilePage/Profile";
+import Exam from "./Pages/ExamPages/Exam";
 
 function App() {
   return (
@@ -25,9 +26,12 @@ function App() {
         <Route path="/StillInDevelopment.html" element={<StillInDevelopment />} />
         <Route path="/login" element={<Login/>} />
         <Route path="/register" element={<Register />} />
-        <Route path="//user-profil" element={<Profile />} />
+        <Route path="/user-profil" element={<Profile />} />{/*pogledati ovo dali sada baca error jer sam pobrisa jedan /*/}
         <Route path="/matura/:imePredmeta" element={<MaturaList />} />
         <Route path="/matura/:imePredmeta/:razinaPredmeta" element={<MaturaList />} />
+
+        <Route path="/exam/:id" element={<Exam/>} />{/*//Za sada samo test*/}
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>

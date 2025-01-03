@@ -20,6 +20,7 @@ const MaturaList = () => {
   useEffect(() => {
     setLoading(true);
     if (imePredmeta !== null && razinaPredmeta !== null) {
+      console.log(imePredmeta + " " + razinaPredmeta)
       const fetchData = async () => {
         try {
           const fetchPromise = (async () => {
