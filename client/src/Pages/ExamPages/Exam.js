@@ -1,44 +1,37 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import ExamSubjectWrapGeneric from './ExamSubjectWrapComponents/ExamSubjectWrapGeneric/ExamSubjectWrapGeneric'
-import Header from '../../Components/HeaderComponent/Header'
-import Footer from '../../Components/FooterComponent/Footer'
-import MaturkoText from './ExamComponents/MaturkoText/MaturkoText'
-import LoadingScreen from "../../Components/LoadingScreenComponent/LoadingScreen"
-import './exam.css'
+import React, { useEffect, useState } from "react";
+import ExamSubjectWrapGeneric from "./ExamSubjectWrapComponents/ExamSubjectWrapGeneric/ExamSubjectWrapGeneric";
+import Header from "../../Components/HeaderComponent/Header";
+import Footer from "../../Components/FooterComponent/Footer";
+import MaturkoText from "./ExamComponents/MaturkoText/MaturkoText";
+import "./exam.css";
+import { useParams ,useNavigate } from "react-router-dom";
+import LoadingScreen from "../../Components/LoadingScreenComponent/LoadingScreen";
+
 
 const Exam = () => {
   const { imeId } = useParams();
-
-  // Dodano stanje za podatke
-  const [examData, setExamData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
-
     const fetchData = async () => {
       try {
-        // Dohvat podataka
         const fetchPromise = (async () => {
-          const response = await fetch(`/mature/hrvatski/visa`);//Fejk fatch!!!! popravi
+          //const response = await fetch(`/exam/${imeId}`);
+          const response = await fetch(`/mature/hrvatski/visa`);
           if (!response.ok) {
             throw new Error("Greška u dohvaćanju podataka");
           }
           return await response.json();
         })();
 
-        // Umjetno kašnjenje od 1.5 sekunde (ako želiš simulirati loading)
-        const delayPromise = new Promise(
-          (resolve) => setTimeout(resolve, 1500)
+        const delayPromise = new Promise((resolve) =>
+          setTimeout(resolve, 1500) 
         );
 
-        // Čekamo obje radnje - dohvat i kašnjenje
-        const [result] = await Promise.all([fetchPromise, delayPromise]);
-
-        // Spremamo podatke u stanje
-        setExamData(result);
+        await Promise.all([fetchPromise, delayPromise]);
       } catch (error) {
         setError(error.message);
       } finally {
@@ -49,39 +42,37 @@ const Exam = () => {
     fetchData();
   }, [imeId]);
 
-  // Ako je još uvijek loading, prikazujemo loading screen
-  if (loading) {
-    return (
-      <div className='exam-main-wrap'>
-        <Header />
-        <LoadingScreen />
-        <Footer footerImmageClass={"footer1"} />
-      </div>
-    )
-  }
+  useEffect(() => {
+    if (error) {
+      navigate("/error");
+    }
+  }, [error, navigate])
 
-  // Ako se dogodila greška, prikažemo poruku o grešci
-  if (error) {
-    return (
-      <div className='exam-main-wrap'>
-        <Header />
-        <p>Došlo je do greške: {error}</p>
-        <Footer footerImmageClass={"footer1"} />
-      </div>
-    )
-  }
-
-  // Kad nije ni loading ni greška, prikazujemo normalan sadržaj
   return (
-    <div className='exam-main-wrap'>
+    <div className="exam-main-wrap">
+      {/* Header je uvijek vidljiv */}
       <Header />
-      <h1 className='exam-title'>{imeId}</h1>
-      <MaturkoText isSimulationActive={"bez simulacije mature"} />
-      {/* Prosljeđujemo dohvaćene podatke u podkomponentu, ako je potrebno */}
-      <ExamSubjectWrapGeneric examData={examData} />
+
+      {/* Loader - prikazuje se dok je loading = true */}
+      <div
+        className={`exam-loading-screen-main-wrap ${
+          loading ? "exam-loading-visible" : "exam-loading-hidden"
+        }`}
+      >
+        <LoadingScreen />
+      </div>
+
+      {/* Glavni sadržaj aplikacije - prikazuje se kada loading = false */}
+      <div className="exam-content-wrap">
+        <h1 className="exam-title">{imeId}</h1>
+        <MaturkoText isSimulationActive={"bez simulacije mature"} />
+        <ExamSubjectWrapGeneric />
+      </div>
+
+      {/* Footer je uvijek vidljiv */}
       <Footer footerImmageClass={"footer1"} />
     </div>
-  )
-}
+  );
+};
 
-export default Exam
+export default Exam;

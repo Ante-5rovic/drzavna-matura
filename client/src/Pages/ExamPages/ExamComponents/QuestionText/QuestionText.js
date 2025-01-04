@@ -1,8 +1,11 @@
 import React from 'react'
 
-const QuestionText = () => {
+const QuestionText = ({ title, tekst }) => {
   return (
-    <div>QuestionText</div>
+    <div>
+      <h2>{title}</h2>
+      <p>{tekst}</p>
+    </div>
   )
 }
 
