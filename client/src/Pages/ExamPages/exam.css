@@ -1,3 +1,38 @@
+/* Glavni omotač za loading screen */
+.exam-loading-screen-main-wrap {
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    background-color: #fff; /* Po želji, da loader background bude vidljiv */
+  }
+  
+  /* Kada je loader “vidljiv” */
+  .exam-loading-visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  
+  /* Kada je loader “skriven” */
+  .exam-loading-hidden {
+    opacity: 0;
+    pointer-events: none; /* onemogućuje interakciju dok je skriven */
+  }
+  
+  /* Glavni sadržaj aplikacije koji prikazujemo kada loader nestane */
+  .exam-content-wrap {
+    /* Po želji - npr. ako želiš da sadržaj ima blagi fade-in, dodaš slično rješenje i za sadržaj */
+    transition: opacity 0.5s ease-in-out;
+    opacity: 1;
+  }  
+
 .exam-title {
   font-family: var(--primary-font);
   font-size: var(--header-0-font-size);

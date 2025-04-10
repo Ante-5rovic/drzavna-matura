@@ -1,0 +1,9 @@
+.selected-answer {
+  color: red; /* crvena slova za odabrani odgovor */
+  font-weight: bold; /* podebljaj ako želiš */
+  cursor: pointer;
+}
+
+.answer-option {
+  cursor: pointer;
+}

@@ -30,7 +30,7 @@ function App() {
         <Route path="/matura/:imePredmeta" element={<MaturaList />} />
         <Route path="/matura/:imePredmeta/:razinaPredmeta" element={<MaturaList />} />
 
-        <Route path="/exam/:id" element={<Exam/>} />{/*//Za sada samo test*/}
+        <Route path="/exam/:imeId" element={<Exam/>} />{/*//Za sada samo test*/}
 
         <Route path="*" element={<NotFound />} />
       </Routes>
