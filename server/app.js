@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const logoutRoutes = require('./routes/logoutRoutes');
 
 //Rute
+const adminRoutes = require('./routes/adminRoutes'); // <-- NOVO: Uvoz admin ruta
 const examRoutes = require('./routes/examRoutes');
 const maturaRoutes = require('./routes/maturaListRoutes');
 const registrationRoutes = require('./routes/registrationRoutes');
@@ -19,7 +20,8 @@ app.use(cookieParser());
 const authenticateToken = require('./middleware/authenticateToken');
 const csrfProtection = csrf({ cookie: true });
 
-app.use('/exam', examRoutes);
+app.use('/admin', adminRoutes); // <-- NOVO: Montirajte admin rute pod '/api/admin'
+app.use('/exams', examRoutes);
 app.use('/mature', maturaRoutes);
 app.use('/register', csrfProtection, registrationRoutes);
 app.use('/login', csrfProtection, loginRoutes);
