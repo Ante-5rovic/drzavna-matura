@@ -1,6 +1,6 @@
 // server/services/exam.service.js
-const examRepository = require('../repositories/exam.repository');
-const subjectRepository = require('../repositories/subject.repository'); // Trebat će nam za ime predmeta
+const examRepository = require('../repositories/examRepository'); // Repozitorij za ispite
+const subjectRepository = require('../repositories/subjectRepository'); // Trebat će nam za ime predmeta
 
 // Pomoćna funkcija za normalizaciju 'level' parametra, sada je dio servisa
 // Može biti i u nekom zajedničkom 'utils' direktoriju ako se koristi na više mjesta
