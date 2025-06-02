@@ -6,11 +6,8 @@ const Navbar = () => {
   return (
     <nav className="navbar-main-wrap">
       <div className="navbar-subjects-pc-wrap">
-        <Link to="/matura/hrvatski/visa" className="navbar-subject-link">
-          <h2 className="navbar-subject">Hrvatski viša</h2>
-        </Link>
-        <Link to="/matura/hrvatski/niza" className="navbar-subject-link">
-          <h2 className="navbar-subject">Hrvatski niža</h2>
+        <Link to="/matura/hrvatski" className="navbar-subject-link">
+          <h2 className="navbar-subject">Hrvatski</h2>
         </Link>
         <Link to="/matura/matematika/visa" className="navbar-subject-link">
           <h2 className="navbar-subject">Matematika viša</h2>
@@ -23,6 +20,9 @@ const Navbar = () => {
         </Link>
         <Link to="/matura/engleski/niza" className="navbar-subject-link">
           <h2 className="navbar-subject">Engleski niža</h2>
+        </Link>
+        <Link to="/admin/exams" className="navbar-subject-link admin-link"> {/* Dodana klasa admin-link za stiliziranje */}
+          <h2 className="navbar-subject">Admin (Ispiti)</h2>
         </Link>
       </div>
       <div className="navbar-subjects-phone-wrap">
