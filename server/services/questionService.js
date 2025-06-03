@@ -1,8 +1,7 @@
-// server/services/question.service.js
-const pool = require('../db'); // Za transakcije
+const pool = require('../db');
 const questionRepository = require('../repositories/questionRepository')
 const answerRepository = require('../repositories/answerRepository');
-const stimulusService = require('./stimulusService'); // Koristimo stimulus servis
+const stimulusService = require('./stimulusService');
 const questionTypeRepository = require('../repositories/questionTypeRepository');
 
 
@@ -31,7 +30,7 @@ class QuestionService {
             );
             const questionId = newQuestionRaw.id;
 
-            const questionType = await questionTypeRepository.findById(question_type_id); // Dohvati tip pitanja za logiku odgovora
+            const questionType = await questionTypeRepository.findById(question_type_id);
             if (!questionType) {
                 throw new Error(`Tip pitanja s ID ${question_type_id} nije pronađen.`);
             }
@@ -42,7 +41,7 @@ class QuestionService {
                     const answersToCreate = answers.map(ans => ({ ...ans, question_id: questionId }));
                     createdAnswersData = await answerRepository.createMany(answersToCreate, client);
                 }
-            } else if (correct_answer_text) { // Za FILL_IN_BLANK, EXTENDED_RESPONSE itd.
+            } else if (correct_answer_text) { 
                 const answerToCreate = [{ question_id: questionId, answer_text: correct_answer_text, is_correct: true, order_in_question: 1 }];
                 createdAnswersData = await answerRepository.createMany(answerToCreate, client);
             }
@@ -51,7 +50,7 @@ class QuestionService {
 
             return {
                 ...newQuestionRaw,
-                stimulus_text: stimulus_text || '', // Vrati stimulus_text ako je bio poslan
+                stimulus_text: stimulus_text || '',
                 question_type_code: questionType.type_code,
                 answers: createdAnswersData
             };
@@ -59,7 +58,6 @@ class QuestionService {
         } catch (error) {
             if (client) await client.query('ROLLBACK');
             console.error('Greška u QuestionService.createQuestion:', error);
-            // Presloži grešku da je kontroler može uhvatiti s više detalja
             const serviceError = new Error(`Greška pri stvaranju pitanja: ${error.message}`);
             serviceError.statusCode = error.statusCode || 500;
             throw serviceError;
@@ -90,7 +88,7 @@ class QuestionService {
                 client
             );
 
-            await answerRepository.deleteByQuestionId(id, client); // Obriši stare odgovore
+            await answerRepository.deleteByQuestionId(id, client);
 
             const questionType = await questionTypeRepository.findById(question_type_id);
              if (!questionType) {
@@ -130,14 +128,11 @@ class QuestionService {
     }
 
     async deleteQuestion(id) {
-        // Transakcija ovdje nije nužno potrebna ako kaskadno brisanje na bazi obrađuje odgovore.
-        // Ali ako želimo biti eksplicitni ili imamo dodatnu logiku:
         let client;
         try {
             client = await pool.connect();
             await client.query('BEGIN');
 
-            // Opcionalno: provjeri postoji li pitanje prije brisanja
             const questionExists = await questionRepository.findById(id, client);
             if (!questionExists) {
                 const error = new Error('Pitanje nije pronađeno za brisanje.');
@@ -145,11 +140,10 @@ class QuestionService {
                 throw error;
             }
             
-            // Prvo obriši vezane odgovore ako nema kaskadnog brisanja ili želimo biti sigurni
             await answerRepository.deleteByQuestionId(id, client);
             const result = await questionRepository.delete(id, client);
 
-            if (result.rowCount === 0) { // Dodatna provjera
+            if (result.rowCount === 0) {
                  const error = new Error('Pitanje nije pronađeno za brisanje (nakon pokušaja).');
                  error.statusCode = 404;
                  throw error;

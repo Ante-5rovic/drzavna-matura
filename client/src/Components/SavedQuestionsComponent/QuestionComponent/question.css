@@ -1,21 +1,18 @@
-/* question.css */
 .question-main-wrap {
     padding: 1rem;
     margin-bottom: 1rem;
     border-radius: 6px;
     width: 300px;
     position: relative;
-    cursor: pointer; /* da korisnik vidi da je klikabilno za boje */
+    cursor: pointer;
     transition: border-color 0.3s ease;
   }
   
-  /* Naslov */
   .question-title {
     font-weight: bold;
     margin-bottom: 0.5rem;
   }
   
-  /* Gumb X (brisanje) */
   .question-delete-button {
     position: absolute;
     top: 8px;
@@ -27,10 +24,9 @@
     
   }
   
-  /* Gumb Otvori (ispod X) */
   .question-link-button {
     position: absolute;
-    top: 38px; /* "44" je primjer — prilagodi po želji */
+    top: 38px;
     right: 10px;
     color: black;
     font-size: 23px;
@@ -38,9 +34,8 @@
     cursor: pointer;
   }
   
-  /* Tekst pitanja */
   .question-text {
-    margin-top: 0.4rem; /* Dovoljno prostora da gumbi gore ne "uđu" u tekst */
+    margin-top: 0.4rem;
     width: 80%;
   }
   

@@ -19,7 +19,6 @@ class QuestionTypeRepository {
 
     async create(questionTypeData) {
         const { type_code, description } = questionTypeData;
-        // Baza ima UNIQUE constraint na 'type_code'
         const result = await pool.query(
             'INSERT INTO question_type (type_code, description) VALUES ($1, $2) RETURNING id, type_code, description;',
             [type_code, description]
@@ -29,7 +28,6 @@ class QuestionTypeRepository {
 
     async update(id, questionTypeData) {
         const { type_code, description } = questionTypeData;
-        // Nema 'updated_at' stupca u 'question_type' tablici prema shemi
         const result = await pool.query(
             'UPDATE question_type SET type_code = $1, description = $2 WHERE id = $3 RETURNING id, type_code, description;',
             [type_code, description, id]
@@ -38,9 +36,8 @@ class QuestionTypeRepository {
     }
 
     async delete(id) {
-        // Baza ima ON DELETE RESTRICT ako se koristi u 'question' tablici
         const result = await pool.query('DELETE FROM question_type WHERE id = $1 RETURNING id;', [id]);
-        return result; // Vraća cijeli result objekt da servis može provjeriti rowCount
+        return result;
     }
 }
 

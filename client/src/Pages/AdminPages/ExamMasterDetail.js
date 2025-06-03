@@ -1,9 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './ExamMasterDetail.css';
-import QuestionForm from '../../Components/QuestionFormComponent/QuestionForm'; // Pretpostavljam da su putanje ispravne
-import ExamForm from '../../Components/ExamFormComponent/ExamForm';       // Pretpostavljam da su putanje ispravne
-
-const API_BASE_PATH = '/admin'; // Koristimo /api/admin kao što je u app.js
+import QuestionForm from '../../Components/QuestionFormComponent/QuestionForm';
+import ExamForm from '../../Components/ExamFormComponent/ExamForm';
 
 const ExamMasterDetail = () => {
   const [exams, setExams] = useState([]);
@@ -18,19 +16,16 @@ const ExamMasterDetail = () => {
   const [currentQuestion, setCurrentQuestion] = useState(null);
   const [message, setMessage] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-
-  // NOVO: State za dodavanje novog predmeta
   const [isAddingSubject, setIsAddingSubject] = useState(false);
   const [newSubjectName, setNewSubjectName] = useState('');
   const [loadingSubjects, setLoadingSubjects] = useState(false);
 
 
-  // --- API Calls ---
   const fetchExams = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/exams`);
+      const response = await fetch(`/admin/exams`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
@@ -45,10 +40,10 @@ const ExamMasterDetail = () => {
   }, []);
 
   const fetchSubjects = useCallback(async () => {
-    setLoadingSubjects(true); // Koristi poseban loading state za predmete
-    // setError(null); // Opcionalno, možeš imati odvojen error state za predmete
+    setLoadingSubjects(true);
+
     try {
-      const response = await fetch(`${API_BASE_PATH}/subjects`);
+      const response = await fetch(`/admin/subjects`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
@@ -63,9 +58,8 @@ const ExamMasterDetail = () => {
   }, []);
 
   const fetchQuestionTypes = useCallback(async () => {
-    // setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/question-types`);
+      const response = await fetch(`/admin/question-types`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
@@ -82,10 +76,9 @@ const ExamMasterDetail = () => {
       setExamQuestions([]);
       return;
     }
-    // setLoading(true); // Već se postavlja globalni loading, može se specificirati
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/exams/${examId}/questions`);
+      const response = await fetch(`/admin/exams/${examId}/questions`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
@@ -106,14 +99,13 @@ const ExamMasterDetail = () => {
   }, [fetchExams, fetchSubjects, fetchQuestionTypes]);
 
   useEffect(() => {
-    if (selectedExam && selectedExam.id) { // Samo ako ispit ima ID (tj. nije novi, nespremljeni ispit)
+    if (selectedExam && selectedExam.id) {
       fetchQuestionsForExam(selectedExam.id);
     } else {
       setExamQuestions([]);
     }
   }, [selectedExam, fetchQuestionsForExam]);
 
-  // --- Master (Exam) Handlers ---
   const handleSelectExam = (exam) => {
     setSelectedExam(exam);
     setIsEditingExam(false);
@@ -144,13 +136,13 @@ const ExamMasterDetail = () => {
   };
 
   const handleSaveExam = async (examData) => {
-    // setLoading(true); // Možeš koristiti specifični loading state za spremanje
+    // setLoading(true);
     setMessage(null);
     setError(null);
     try {
       let response;
       const method = examData.id ? 'PUT' : 'POST';
-      const url = examData.id ? `${API_BASE_PATH}/exams/${examData.id}` : `${API_BASE_PATH}/exams`;
+      const url = examData.id ? `/admin/exams/${examData.id}` : `/admin/exams`;
 
       response = await fetch(url, {
         method: method,
@@ -166,8 +158,6 @@ const ExamMasterDetail = () => {
       setMessage('Ispit uspješno spremljen!');
       setIsEditingExam(false);
       await fetchExams();
-      // Ako je bio novi ispit, postavi ga kao odabrani
-      // Ako je bio update, odabrani ispit će se automatski osvježiti u listi
       const newSelectedExam = exams.find(e => e.id === savedExam.id) || savedExam;
       setSelectedExam(newSelectedExam);
 
@@ -184,7 +174,7 @@ const ExamMasterDetail = () => {
     setMessage(null);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/exams/${examId}`, { method: 'DELETE' });
+      const response = await fetch(`/admin/exams/${examId}`, { method: 'DELETE' });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
@@ -199,7 +189,6 @@ const ExamMasterDetail = () => {
     }
   };
 
-  // --- Detail (Question) Handlers ---
   const handleAddQuestion = () => {
     if (!selectedExam || !selectedExam.id) {
       alert('Molimo prvo odaberite ili spremite ispit prije dodavanja pitanja.');
@@ -227,11 +216,9 @@ const ExamMasterDetail = () => {
     
     setCurrentQuestion({
       ...question,
-      // Ako nije MC, a postoji answers array, correct_answer_text je prvi točan odgovor
-      // Ovo pretpostavlja da za ne-MC pitanja točan odgovor može biti spremljen u answers polju na backendu
       correct_answer_text: !isMC && question.answers && question.answers.find(a => a.is_correct)
                            ? question.answers.find(a => a.is_correct).answer_text
-                           : (question.correct_answer_text || ''), // Ako je već poslan odvojeno
+                           : (question.correct_answer_text || ''),
       answers: question.answers || []
     });
     setIsEditingQuestion(true);
@@ -246,7 +233,7 @@ const ExamMasterDetail = () => {
     try {
       let response;
       const method = questionData.id ? 'PUT' : 'POST';
-      const url = questionData.id ? `${API_BASE_PATH}/questions/${questionData.id}` : `${API_BASE_PATH}/questions`;
+      const url = questionData.id ? `/admin/questions/${questionData.id}` : `/admin/questions`;
 
       response = await fetch(url, {
         method: method,
@@ -276,7 +263,7 @@ const ExamMasterDetail = () => {
     setMessage(null);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/questions/${questionId}`, { method: 'DELETE' });
+      const response = await fetch(`/admin/questions/${questionId}`, { method: 'DELETE' });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
@@ -292,7 +279,6 @@ const ExamMasterDetail = () => {
     }
   };
 
-  // --- NOVO: Subject Handlers ---
   const handleAddNewSubject = () => {
     setNewSubjectName('');
     setIsAddingSubject(true);
@@ -310,7 +296,7 @@ const ExamMasterDetail = () => {
     setMessage(null);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/subjects`, {
+      const response = await fetch(`/admin/subjects`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name: newSubjectName.trim() })
@@ -342,11 +328,10 @@ const ExamMasterDetail = () => {
   );
 
   if (loading && exams.length === 0 && !selectedExam && !isAddingSubject) return <div className="loading">Učitavanje ispita...</div>;
-  // Ne prikazuj "Nema unesenih ispita" ako je forma za dodavanje predmeta otvorena
   if (!loading && exams.length === 0 && !isEditingExam && !searchTerm && !isAddingSubject && !selectedExam) {
       return (
           <div className="admin-container">
-            <h1>Admin: Upravljanje ispitima i pitanjima</h1>
+            <h1>Upravljanje ispitima i pitanjima</h1>
              {message && <div className="app-message success">{message}</div>}
              {error && <div className="app-message error">{error}</div>}
             <div className="master-list">
@@ -387,15 +372,14 @@ const ExamMasterDetail = () => {
 
   return (
     <div className="admin-container">
-      <h1>Admin: Upravljanje ispitima i pitanjima</h1>
+      <h1>Upravljanje ispitima i pitanjima</h1>
 
       {message && <div className="app-message success" onClick={() => setMessage(null)}>{message}</div>}
       {error && <div className="app-message error" onClick={() => setError(null)}>{error}</div>}
 
-      {/* Forma za dodavanje novog predmeta - može biti uvijek vidljiva ili kao modal */}
       {isAddingSubject && (
         <div className="modal-overlay">
-          <div className="form-card subject-form-modal"> {/* Koristi sličan stil kao QuestionForm */}
+          <div className="form-card subject-form-modal">
             <h3>Dodaj novi predmet</h3>
             <form onSubmit={handleSaveNewSubject}>
               <div className="form-group">
@@ -428,7 +412,6 @@ const ExamMasterDetail = () => {
           <h2>Ispiti</h2>
           <div className="master-actions">
             <button className="btn btn-primary" onClick={handleCreateNewExam}>+ Novi ispit</button>
-            {/* NOVO: Gumb za dodavanje predmeta */}
             <button className="btn btn-secondary" onClick={handleAddNewSubject} style={{ marginLeft: '10px' }}>+ Novi predmet</button>
           </div>
 
@@ -447,7 +430,7 @@ const ExamMasterDetail = () => {
             searchTerm ? (
               <p className="no-data">Nema ispita koji odgovaraju pretrazi "{searchTerm}".</p>
             ) : (
-              exams.length > 0 ? null : <p className="no-data">Nema unesenih ispita.</p> // Prikazi samo ako je exams zaista prazan
+              exams.length > 0 ? null : <p className="no-data">Nema unesenih ispita.</p>
             )
           ) : (
             <ul className="exam-list">
@@ -455,7 +438,7 @@ const ExamMasterDetail = () => {
                 <li key={exam.id} className={selectedExam?.id === exam.id ? 'selected' : ''} onClick={() => handleSelectExam(exam)}>
                   <span>{exam.title_display} ({exam.year}) - {exam.subject_name}</span>
                   <div className="exam-actions">
-                    {/* <button className="btn btn-secondary btn-small" onClick={(e) => {e.stopPropagation(); handleSelectExam(exam);}}>Pregledaj</button> */}
+                    <button className="btn btn-secondary btn-small" onClick={(e) => {e.stopPropagation(); handleSelectExam(exam);}}>Pregledaj</button>
                     <button className="btn btn-danger btn-small" onClick={(e) => { e.stopPropagation(); handleDeleteExam(exam.id); }}>Obriši</button>
                   </div>
                 </li>
@@ -509,7 +492,7 @@ const ExamMasterDetail = () => {
           )}
         </div>
 
-        {isEditingQuestion && currentQuestion && ( // Osiguraj da currentQuestion postoji
+        {isEditingQuestion && currentQuestion && (
           <QuestionForm
             question={currentQuestion}
             questionTypes={questionTypes}

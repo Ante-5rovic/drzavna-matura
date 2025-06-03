@@ -1,10 +1,8 @@
-// SavedQuestions.jsx
 import React, { useState } from 'react';
 import Question from './QuestionComponent/Question';
-import './savedQuestions.css'; // Uvezi CSS datoteku
+import './savedQuestions.css';
 
 const SavedQuestions = () => {
-  // Primjer dummy podataka za pitanja
   const [questions, setQuestions] = useState([
     {
       id: 1,
@@ -47,7 +45,7 @@ const SavedQuestions = () => {
   const [selectedColor, setSelectedColor] = useState('#ddd');
 
   const colorPalette = [
-    '#ddd',     // prva boja, default
+    '#ddd',
     '#F44336',  
     '#E91E63', 
     '#9C27B0',  
@@ -57,20 +55,16 @@ const SavedQuestions = () => {
     '#03A9F4',
     '#00BCD4',
     '#009688',
-    '#4CAF50',  // zelena
+    '#4CAF50',
   ];
 
-  // Kad korisnik klikne na neku boju iz palete
   const handleSelectColor = (color) => {
     setSelectedColor(color);
   };
 
-  // Kad korisnik klikne na pitanje
   const handleClickQuestion = (id) => {
-    // Ako slučajno nije odabrao boju, ne radi ništa
     if (!selectedColor) return;
 
-    // Postavi boju tog konkretnog pitanja
     setQuestions((prevQuestions) =>
       prevQuestions.map((q) =>
         q.id === id ? { ...q, color: selectedColor } : q
@@ -78,7 +72,6 @@ const SavedQuestions = () => {
     );
   };
 
-  // Funkcija za brisanje pitanja (ostaje kao prije)
   const handleDelete = (id) => {
     const newQuestions = questions.filter((question) => question.id !== id);
     setQuestions(newQuestions);
@@ -86,7 +79,6 @@ const SavedQuestions = () => {
 
   return (
     <main className="saved-questions-main-wrap">
-      {/* Redak s paletom boja */}
       <section className="saved-questions-color-palette">
         {colorPalette.map((color) => {
           const isSelected = color === selectedColor;
@@ -97,7 +89,6 @@ const SavedQuestions = () => {
               className="saved-questions-color-swatch"
               style={{
                 backgroundColor: color,
-                // Ako je ta boja trenutno selektirana, stavi crni obrub
                 border: isSelected ? '3px solid #000' : '3px solid transparent',
               }}
               onClick={() => handleSelectColor(color)}

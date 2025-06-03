@@ -8,7 +8,7 @@ const mockOnSave = jest.fn();
 const mockOnCancel = jest.fn();
 
 beforeAll(() => {
-  window.alert = jest.fn(); // blokiraj alert
+  window.alert = jest.fn();
 });
 
 describe('ExamForm', () => {

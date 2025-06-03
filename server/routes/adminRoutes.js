@@ -13,7 +13,6 @@ const handleServiceError = (error, res, defaultMessage = 'Interna greška server
     res.status(error.statusCode || 500).json({ message: error.message || defaultMessage });
 };
 
-// --- Rutiranje za EXAMS (Master) ---
 router.get('/exams', async (req, res) => {
     try {
         const exams = await examService.getAllExams();
@@ -35,7 +34,6 @@ router.get('/exams/:id', async (req, res) => {
 
 router.post('/exams', async (req, res) => {
     try {
-        // Ovdje bi išla detaljnija validacija ulaza (npr. s express-validator)
         const { subject_id, year, term, level, title_display } = req.body;
         if (subject_id === undefined || year === undefined || term === undefined) {
             return res.status(400).json({ message: 'Nedostaju obavezni podaci: subject_id, year, term.' });
@@ -71,7 +69,6 @@ router.delete('/exams/:id', async (req, res) => {
     }
 });
 
-// --- Rutiranje za QUESTIONS (Detail) ---
 router.get('/exams/:examId/questions', async (req, res) => {
     try {
         const { examId } = req.params;
@@ -84,7 +81,6 @@ router.get('/exams/:examId/questions', async (req, res) => {
 
 router.post('/questions', async (req, res) => {
     try {
-        // Dodaj validaciju za req.body prema potrebama
         const newQuestion = await questionService.createQuestion(req.body);
         res.status(201).json(newQuestion);
     } catch (error) {
@@ -95,7 +91,6 @@ router.post('/questions', async (req, res) => {
 router.put('/questions/:id', async (req, res) => {
     try {
         const { id } = req.params;
-        // Dodaj validaciju za req.body
         const updatedQuestion = await questionService.updateQuestion(id, req.body);
         res.json(updatedQuestion);
     } catch (error) {
@@ -113,8 +108,6 @@ router.delete('/questions/:id', async (req, res) => {
     }
 });
 
-// --- Rutiranje za Šifrarnike ---
-// == PREDMETI (Subjects) ==
 router.get('/subjects', async (req, res) => {
     try {
         const subjects = await subjectService.getAllSubjects();
@@ -163,7 +156,6 @@ router.delete('/subjects/:id', async (req, res) => {
     }
 });
 
-// == TIPOVI PITANJA (Question Types) ==
 router.get('/question-types', async (req, res) => {
     try {
         const types = await questionTypeService.getAllQuestionTypes();
@@ -185,7 +177,6 @@ router.get('/question-types/:id', async (req, res) => {
 
 router.post('/question-types', async (req, res) => {
     try {
-        // Validacija (npr. da su type_code i description poslani) može ići ovdje ili se osloniti na servis
         const newQuestionType = await questionTypeService.createQuestionType(req.body);
         res.status(201).json(newQuestionType);
     } catch (error) {
@@ -213,8 +204,6 @@ router.delete('/question-types/:id', async (req, res) => {
     }
 });
 
-
-// == STIMULUSI (Stimuli) ==
 router.get('/stimuli', async (req, res) => {
     try {
         const stimuli = await stimulusService.getAllStimuli();
@@ -236,7 +225,6 @@ router.get('/stimuli/:id', async (req, res) => {
 
 router.post('/stimuli', async (req, res) => {
     try {
-        // Validacija req.body (npr. stimulus_type, description)
         const newStimulus = await stimulusService.createStimulus(req.body);
         res.status(201).json(newStimulus);
     } catch (error) {

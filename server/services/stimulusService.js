@@ -1,6 +1,5 @@
-// server/services/stimulusService.js
 const stimulusRepository = require('../repositories/stimulusRepository');
-const questionRepository = require('../repositories/questionRepository'); // Za provjeru korištenja
+const questionRepository = require('../repositories/questionRepository');
 
 class StimulusService {
     async getAllStimuli() {
@@ -33,7 +32,7 @@ class StimulusService {
         return await stimulusRepository.createForAdmin({
             stimulus_type: String(stimulus_type).trim(),
             description: String(description).trim(),
-            content_data: content_data || {} // Default na prazan JSON objekt ako nije poslano
+            content_data: content_data || {}
         });
     }
 
@@ -52,10 +51,9 @@ class StimulusService {
 
 
         if (Object.keys(updateData).length === 0) {
-            return stimulusToUpdate; // Nema polja za ažuriranje
+            return stimulusToUpdate;
         }
         
-        // Ako je description prazan string, a bio je obavezan, treba provjeriti
         if (updateData.description === '') {
             const error = new Error('Opis stimulusa ne smije biti prazan.');
             error.statusCode = 400;
@@ -85,15 +83,12 @@ class StimulusService {
             throw error;
         }
 
-        // Baza će automatski postaviti question.stimulus_id na NULL zbog ON DELETE SET NULL.
-        // Možemo dodati provjeru i upozorenje ako se stimulus još uvijek koristi.
         const usageCount = await questionRepository.countByStimulusId(id);
         if (usageCount > 0) {
-            // Ovo je više upozorenje, jer će DB dopustiti brisanje i postaviti FK na NULL.
             console.warn(`Stimulus ${id} se još uvijek koristi u ${usageCount} pitanja. Bit će postavljen na NULL u tim pitanjima.`);
         }
 
-        const result = await stimulusRepository.delete(id); // Koristi repo metodu koja može primiti client
+        const result = await stimulusRepository.delete(id);
         if (result.rowCount === 0) {
             const error = new Error('Stimulus nije pronađen za brisanje (nakon pokušaja).');
             error.statusCode = 404;
@@ -101,7 +96,6 @@ class StimulusService {
         }
     }
 
-    // Metoda koju koristi QuestionService
     async findOrCreateStimulus(description, client, stimulus_type = 'text', content_data = {}) {
         if (!description || String(description).trim() === '') {
             return null;

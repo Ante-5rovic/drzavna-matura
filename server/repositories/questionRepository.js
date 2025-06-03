@@ -1,8 +1,7 @@
-// server/repositories/questionRepository.js
 const pool = require('../db');
 
 class QuestionRepository {
-    async findByExamId(examId, client = pool) { // Dodaj client
+    async findByExamId(examId, client = pool) {
         const result = await client.query(`
             SELECT
                 q.id, q.exam_id, q.question_type_id, qt.type_code AS question_type_code,
@@ -64,7 +63,7 @@ class QuestionRepository {
         return parseInt(result.rows[0].count, 10);
     }
 
-    async countByQuestionTypeId(questionTypeId, client = pool) { // Potrebno za QuestionTypeService
+    async countByQuestionTypeId(questionTypeId, client = pool) {
         const result = await client.query(
             'SELECT COUNT(*) AS count FROM question WHERE question_type_id = $1;',
             [questionTypeId]

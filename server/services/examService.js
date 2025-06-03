@@ -1,19 +1,15 @@
-// server/services/exam.service.js
 const examRepository = require('../repositories/examRepository'); // Repozitorij za ispite
 const subjectRepository = require('../repositories/subjectRepository'); // Trebat će nam za ime predmeta
 
-// Pomoćna funkcija za normalizaciju 'level' parametra, sada je dio servisa
-// Može biti i u nekom zajedničkom 'utils' direktoriju ako se koristi na više mjesta
 const normalizeLevel = (levelInput) => {
     if (levelInput === null || levelInput === undefined || levelInput === '') {
-        return ''; // Originalni kod koristi '' za "bez razine"
+        return '';
     }
     return String(levelInput).toUpperCase();
 };
 
 class ExamService {
     async getAllExams() {
-        // Repozitorij već vraća spojene podatke
         return await examRepository.findAllWithSubjectDetails();
     }
 
@@ -29,21 +25,18 @@ class ExamService {
 
     async createExam(examData) {
         const { subject_id, year, term, title_display } = examData;
-        const level = normalizeLevel(examData.level); // Normalizacija unutar servisa
+        const level = normalizeLevel(examData.level);
 
-        // Poslovna logika: Provjera duplikata
         const existingExam = await examRepository.findByDetails(subject_id, year, term, level);
         if (existingExam) {
             const error = new Error('Ispit s istim predmetom, godinom, rokom i razinom već postoji.');
-            error.statusCode = 409; // Conflict
+            error.statusCode = 409;
             throw error;
         }
 
         const newExamRaw = await examRepository.create({ subject_id, year, term, level, title_display });
 
-        // Dodavanje imena predmeta, kao u originalnom kodu
-        // Ovo se može optimizirati ako `examRepository.create` može vratiti i ime predmeta
-        const subject = await subjectRepository.findById(newExamRaw.subject_id); // Pretpostavka da subjectRepository ima findById
+        const subject = await subjectRepository.findById(newExamRaw.subject_id);
         return {
             ...newExamRaw,
             subject_name: subject ? subject.name : 'Nepoznat predmet'
@@ -54,7 +47,6 @@ class ExamService {
         const { subject_id, year, term, title_display } = examData;
         const level = normalizeLevel(examData.level);
 
-        // Prvo provjeri postoji li ispit koji se ažurira
         const examToUpdate = await examRepository.findById(id);
         if (!examToUpdate) {
             const error = new Error('Ispit nije pronađen za ažuriranje.');
@@ -62,7 +54,6 @@ class ExamService {
             throw error;
         }
 
-        // Poslovna logika: Provjera duplikata pri ažuriranju
         const duplicateExam = await examRepository.findByDetailsAndNotId(subject_id, year, term, level, id);
         if (duplicateExam) {
             const error = new Error('Ažuriranjem bi se stvorio duplikat postojećeg ispita.');
@@ -71,7 +62,7 @@ class ExamService {
         }
 
         const updatedExamRaw = await examRepository.update(id, { subject_id, year, term, level, title_display });
-         if (!updatedExamRaw) { // U slučaju da repo vrati null/undefined ako update ne uspije naći redak
+         if (!updatedExamRaw) {
             const error = new Error('Ispit nije pronađen za ažuriranje (nakon pokušaja ažuriranja).');
             error.statusCode = 404;
             throw error;
@@ -87,12 +78,96 @@ class ExamService {
 
     async deleteExam(id) {
         const result = await examRepository.delete(id);
-        if (result.rowCount === 0) { // Provjera je li išta obrisano
+        if (result.rowCount === 0) {
              const error = new Error('Ispit nije pronađen za brisanje.');
              error.statusCode = 404;
              throw error;
         }
-        // Nema potrebe vraćati ništa, kontroler će poslati 204
+    }
+
+        async getPublicExams(subjectParam, levelParam) {
+        const dbSubjectName = this._mapSubjectToDb(subjectParam);
+        const dbLevel = this._mapLevelToDb(levelParam);
+
+        if (!dbSubjectName) {
+            const error = new Error('Nepoznat predmet.');
+            error.statusCode = 400;
+            throw error;
+        }
+        const exams = await examRepository.findPublicExams(dbSubjectName, dbLevel);
+
+        if (!exams || exams.length === 0) {
+            return [];
+        }
+        return exams;
+    }
+
+    async getFullExamForDisplay(examId) {
+        const examHeader = await examRepository.findByIdWithSubjectDetails(examId);
+        if (!examHeader) {
+            const error = new Error('Ispit nije pronađen.');
+            error.statusCode = 404;
+            throw error;
+        }
+
+        const questions = await questionRepository.findByExamId(examId);
+
+        const questionsWithFullDetails = await Promise.all(
+            questions.map(async (question) => {
+                const answers = await answerRepository.findByQuestionId(question.id);
+                return {
+                    question_id: question.id,
+                    question_text: question.question_text,
+                    order_in_exam: question.order_in_exam,
+                    points: question.points,
+                    question_type_code: question.question_type_code,
+                    stimulus_text: question.stimulus_text,
+                    answers: answers || []
+                };
+            })
+        );
+
+        return {
+            exam_id: examHeader.id,
+            subject_name: examHeader.subject_name,
+            year: examHeader.year,
+            term: examHeader.term,
+            level: examHeader.level,
+            title_display: examHeader.title_display,
+            questions: questionsWithFullDetails
+        };
+    }
+
+    _mapLevelToDb(levelParam) {
+        if (!levelParam || levelParam === 'null') return '';
+        const lowerLevel = String(levelParam).toLowerCase();
+        if (lowerLevel === 'visa' || lowerLevel === 'viša') return 'A';
+        if (lowerLevel === 'niza' || lowerLevel === 'niža') return 'B';
+        return '';
+    }
+
+    _mapSubjectToDb(subjectParam) {
+        if (!subjectParam) return null;
+        const lowerSubject = String(subjectParam).toLowerCase();
+        if (lowerSubject === 'hrvatski') return 'Hrvatski jezik';
+        if (lowerSubject === 'matematika') return 'Matematika';
+        if (lowerSubject === 'engleski') return 'Engleski jezik';
+        return subjectParam;
+    }
+
+    async getPublicExams(subjectParam, levelParam) {
+        const dbSubjectName = this._mapSubjectToDb(subjectParam);
+        const dbLevel = this._mapLevelToDb(levelParam);
+
+        if (!dbSubjectName) {
+            const error = new Error('Nepoznat ili nedostajući predmet.');
+            error.statusCode = 400;
+            throw error;
+        }
+        
+        const exams = await examRepository.findPublicExams(dbSubjectName, dbLevel);
+        
+        return exams || [];
     }
 }
 

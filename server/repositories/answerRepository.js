@@ -1,4 +1,3 @@
-// server/repositories/answer.repository.js
 const pool = require('../db');
 
 class AnswerRepository {
@@ -11,7 +10,6 @@ class AnswerRepository {
     }
 
     async createMany(answers, client = pool) {
-        // Za batch unos odgovora unutar transakcije
         const createdAnswers = [];
         for (const ans of answers) {
             const result = await client.query(`

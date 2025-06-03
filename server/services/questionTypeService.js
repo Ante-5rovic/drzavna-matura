@@ -1,6 +1,5 @@
-// server/services/questionTypeService.js
 const questionTypeRepository = require('../repositories/questionTypeRepository');
-const questionRepository = require('../repositories/questionRepository'); // Za provjeru korištenja
+const questionRepository = require('../repositories/questionRepository');
 
 class QuestionTypeService {
     async getAllQuestionTypes() {
@@ -24,7 +23,6 @@ class QuestionTypeService {
             error.statusCode = 400;
             throw error;
         }
-        // description može biti null ili prazan
 
         try {
             return await questionTypeRepository.create({
@@ -32,12 +30,12 @@ class QuestionTypeService {
                 description: description || null
             });
         } catch (dbError) {
-            if (dbError.code === '23505' && dbError.constraint === 'question_type_type_code_key') { // Unique violation
+            if (dbError.code === '23505' && dbError.constraint === 'question_type_type_code_key') {
                 const error = new Error('Tip pitanja s ovim kodom već postoji.');
-                error.statusCode = 409; // Conflict
+                error.statusCode = 409;
                 throw error;
             }
-            throw dbError; // Ostale DB greške
+            throw dbError;
         }
     }
 
@@ -62,7 +60,7 @@ class QuestionTypeService {
 
 
         if (Object.keys(updateData).length === 0) {
-            return qTypeToUpdate; // Nema polja za ažuriranje
+            return qTypeToUpdate;
         }
 
         try {
@@ -74,7 +72,7 @@ class QuestionTypeService {
             }
             return updatedQType;
         } catch (dbError) {
-            if (dbError.code === '23505' && dbError.constraint === 'question_type_type_code_key') { // Unique violation
+            if (dbError.code === '23505' && dbError.constraint === 'question_type_type_code_key') {
                 const error = new Error('Tip pitanja s ovim kodom već postoji.');
                 error.statusCode = 409;
                 throw error;
@@ -91,16 +89,13 @@ class QuestionTypeService {
             throw error;
         }
 
-        // Provjera koristi li se tip pitanja (baza ima ON DELETE RESTRICT)
         const usageCount = await questionRepository.countByQuestionTypeId(id);
         if (usageCount > 0) {
             const error = new Error('Tip pitanja se ne može obrisati jer je povezan s postojećim pitanjima.');
-            error.statusCode = 409; // Conflict
+            error.statusCode = 409;
             throw error;
         }
 
-        // Ako dođemo ovdje, znači da ga ništa ne koristi, iako bi DB to već spriječio.
-        // Ova provjera je više za user-friendly poruku prije nego DB baci grešku.
         const result = await questionTypeRepository.delete(id);
         if (result.rowCount === 0) {
             const error = new Error('Tip pitanja nije pronađen za brisanje (nakon pokušaja).');

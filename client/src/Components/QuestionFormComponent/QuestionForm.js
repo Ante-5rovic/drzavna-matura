@@ -3,7 +3,7 @@ import './qusetionsForm.css'
 
 const QuestionForm = ({ question, questionTypes, onSave, onCancel }) => {
   const [formData, setFormData] = useState(question);
-  const [answers, setAnswers] = useState(question.answers || []); // State for answer options
+  const [answers, setAnswers] = useState(question.answers || []);
 
   useEffect(() => {
     setFormData(question);
@@ -20,7 +20,6 @@ const QuestionForm = ({ question, questionTypes, onSave, onCancel }) => {
     const newAnswers = answers.map((ans, i) => {
       if (i === index) {
         if (name === 'is_correct') {
-          // Ensure only one answer is correct for single-choice types
           return { ...ans, is_correct: checked };
         }
         return { ...ans, [name]: value };
@@ -41,7 +40,7 @@ const QuestionForm = ({ question, questionTypes, onSave, onCancel }) => {
   const handleRemoveAnswer = (index) => {
     setAnswers(prev => prev.filter((_, i) => i !== index).map((ans, i) => ({
       ...ans,
-      order_in_question: i + 1 // Re-order after removal
+      order_in_question: i + 1
     })));
   };
 
@@ -63,7 +62,6 @@ const QuestionForm = ({ question, questionTypes, onSave, onCancel }) => {
       return;
     }
 
-    // Dodatna validacija za odgovore
     const isMultipleChoice = ['MULTIPLE_CHOICE_SINGLE', 'MULTIPLE_CHOICE_MULTIPLE'].includes(questionTypes.find(qt => qt.id === formData.question_type_id)?.type_code);
     if (isMultipleChoice) {
       if (answers.length === 0) {
@@ -80,7 +78,6 @@ const QuestionForm = ({ question, questionTypes, onSave, onCancel }) => {
         return;
       }
     } else if (['FILL_IN_BLANK', 'EXTENDED_RESPONSE'].includes(questionTypes.find(qt => qt.id === formData.question_type_id)?.type_code)) {
-      // For FILL_IN_BLANK or EXTENDED_RESPONSE, we expect a single correct_answer_text
       if (!formData.correct_answer_text) {
         alert('Molimo unesite točan odgovor za ovaj tip pitanja.');
         return;
@@ -92,11 +89,10 @@ const QuestionForm = ({ question, questionTypes, onSave, onCancel }) => {
       ...formData,
       points: pointsAsNumber,
       order_in_exam: orderAsNumber,
-      answers: answers // Pošalji i opcije odgovora
+      answers: answers
     });
   };
 
-  // Provjeravamo je li trenutni tip pitanja višestruki izbor (za prikaz opcija odgovora)
   const currentQuestionTypeCode = questionTypes.find(qt => qt.id === formData.question_type_id)?.type_code;
   const showAnswerOptions = ['MULTIPLE_CHOICE_SINGLE', 'MULTIPLE_CHOICE_MULTIPLE'].includes(currentQuestionTypeCode);
   const showSingleCorrectAnswerText = ['FILL_IN_BLANK', 'EXTENDED_RESPONSE', 'povezivanje', 'povezivanje_poruka', 'popunjavanje_praznine_recenica', 'popunjavanje_praznine_rijec', 'popunjavanje_praznine_odgovor'].includes(currentQuestionTypeCode);
@@ -160,7 +156,6 @@ const QuestionForm = ({ question, questionTypes, onSave, onCancel }) => {
                       name="is_correct"
                       checked={answer.is_correct}
                       onChange={(e) => {
-                        // Logic for single-choice type_code (only one checked)
                         if (currentQuestionTypeCode === 'MULTIPLE_CHOICE_SINGLE' && e.target.checked) {
                           setAnswers(prev => prev.map((ans, i) =>
                             i === index ? { ...ans, is_correct: true } : { ...ans, is_correct: false }

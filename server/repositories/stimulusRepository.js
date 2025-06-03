@@ -1,4 +1,3 @@
-// server/repositories/stimulusRepository.js
 const pool = require('../db');
 
 class StimulusRepository {
@@ -20,7 +19,7 @@ class StimulusRepository {
         return result.rows[0];
     }
 
-    async create(stimulusData, client = pool) { // Ovu metodu koristi QuestionService
+    async create(stimulusData, client = pool) {
         const { description, stimulus_type = 'text', content_data = {} } = stimulusData;
         const result = await client.query(
             'INSERT INTO stimulus (stimulus_type, description, content_data) VALUES ($1, $2, $3) RETURNING id, description, stimulus_type, content_data;',
@@ -29,7 +28,6 @@ class StimulusRepository {
         return result.rows[0];
     }
 
-    // Metode za opći CRUD šifrarnika (ne moraju nužno biti unutar transakcije)
     async createForAdmin(stimulusData) {
         const { stimulus_type, description, content_data = {} } = stimulusData;
         const result = await pool.query(
@@ -41,7 +39,6 @@ class StimulusRepository {
 
     async updateForAdmin(id, stimulusData) {
         const { stimulus_type, description, content_data } = stimulusData;
-        // updated_at se automatski ažurira triggerom
         
         const fields = [];
         const values = [];
@@ -60,8 +57,8 @@ class StimulusRepository {
             values.push(content_data);
         }
         
-        if (fields.length === 0) { // Nema polja za ažuriranje
-            return this.findById(id); // Vrati trenutno stanje
+        if (fields.length === 0) {
+            return this.findById(id);
         }
 
         const query = `UPDATE stimulus SET ${fields.join(', ')} WHERE id = $${paramIndex} RETURNING *;`;
@@ -71,8 +68,7 @@ class StimulusRepository {
         return result.rows[0];
     }
 
-    async delete(id, client = pool) { // Neka i ova prima client za konzistentnost ako se pozove unutar transakcije
-        // ON DELETE SET NULL će obrisati stimulus_id u question tablici
+    async delete(id, client = pool) {
         const result = await client.query('DELETE FROM stimulus WHERE id = $1 RETURNING id;', [id]);
         return result;
     }
