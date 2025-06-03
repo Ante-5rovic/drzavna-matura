@@ -3,8 +3,6 @@ import './ExamMasterDetail.css';
 import QuestionForm from '../../Components/QuestionFormComponent/QuestionForm';
 import ExamForm from '../../Components/ExamFormComponent/ExamForm';
 
-const API_BASE_PATH = '/admin';
-
 const ExamMasterDetail = () => {
   const [exams, setExams] = useState([]);
   const [subjects, setSubjects] = useState([]);
@@ -16,319 +14,407 @@ const ExamMasterDetail = () => {
   const [isEditingExam, setIsEditingExam] = useState(false);
   const [isEditingQuestion, setIsEditingQuestion] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState(null);
-  const [message, setMessage] = useState(null); // For success/info messages
-  // NOVI STATE: Za pojam pretrage
+  const [message, setMessage] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [isAddingSubject, setIsAddingSubject] = useState(false);
+  const [newSubjectName, setNewSubjectName] = useState('');
+  const [loadingSubjects, setLoadingSubjects] = useState(false);
 
-  // --- API Calls (Stvarni pozivi na backend) ---
 
-  // Funkcija za dohvaćanje svih ispita
   const fetchExams = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/exams`);
+      const response = await fetch(`/admin/exams`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      // Console.log za debug - ostavljam za uvid
-      console.log("Fetched exams:", data);
       setExams(data);
     } catch (err) {
-      setError('Failed to fetch exams: ' + err.message);
+      setError('Greška pri dohvaćanju ispita: ' + err.message);
     } finally {
       setLoading(false);
     }
   }, []);
 
-  // Funkcija za dohvaćanje svih predmeta
   const fetchSubjects = useCallback(async () => {
-    setError(null);
+    setLoadingSubjects(true);
+
     try {
-      const response = await fetch(`${API_BASE_PATH}/subjects`);
+      const response = await fetch(`/admin/subjects`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Fetched subjects:", data);
       setSubjects(data);
     } catch (err) {
-      setError('Failed to fetch subjects: ' + err.message);
+      setError(prevError => prevError ? prevError + '; Greška pri dohvaćanju predmeta: ' + err.message : 'Greška pri dohvaćanju predmeta: ' + err.message);
+    } finally {
+        setLoadingSubjects(false);
     }
   }, []);
 
-  // Funkcija za dohvaćanje svih tipova pitanja
   const fetchQuestionTypes = useCallback(async () => {
-    setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/question-types`);
+      const response = await fetch(`/admin/question-types`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log("Fetched question types:", data);
       setQuestionTypes(data);
     } catch (err) {
-      setError('Failed to fetch question types: ' + err.message);
+      setError(prevError => prevError ? prevError + '; Greška pri dohvaćanju tipova pitanja: ' + err.message : 'Greška pri dohvaćanju tipova pitanja: ' + err.message);
     }
   }, []);
 
-  // Funkcija za dohvaćanje pitanja za odabrani ispit
   const fetchQuestionsForExam = useCallback(async (examId) => {
     if (!examId) {
       setExamQuestions([]);
       return;
     }
-    setLoading(true); // Učitavanje samo za pitanja
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/exams/${examId}/questions`);
+      const response = await fetch(`/admin/exams/${examId}/questions`);
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(`Fetched questions for exam ${examId}:`, data);
       setExamQuestions(data);
     } catch (err) {
-      setError(`Failed to fetch questions for exam ${examId}: ` + err.message);
+      setError(`Greška pri dohvaćanju pitanja za ispit ${examId}: ` + err.message);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   }, []);
 
-  // Početno dohvaćanje svih podataka prilikom učitavanja komponente
   useEffect(() => {
     fetchExams();
     fetchSubjects();
     fetchQuestionTypes();
-  }, [fetchExams, fetchSubjects, fetchQuestionTypes]); // Ovisnosti za useCallback
+  }, [fetchExams, fetchSubjects, fetchQuestionTypes]);
 
-  // Dohvaćanje pitanja kada se odabere novi ispit
   useEffect(() => {
-    if (selectedExam) {
+    if (selectedExam && selectedExam.id) {
       fetchQuestionsForExam(selectedExam.id);
     } else {
-      setExamQuestions([]); // Očisti pitanja ako nema odabranog ispita
+      setExamQuestions([]);
     }
-  }, [selectedExam, fetchQuestionsForExam]); // Ovisnosti
+  }, [selectedExam, fetchQuestionsForExam]);
 
-  // --- Master (Exam) Handlers ---
   const handleSelectExam = (exam) => {
     setSelectedExam(exam);
-    setIsEditingExam(false); // Zatvori formu za uređivanje ispita ako je otvorena
+    setIsEditingExam(false);
     setMessage(null);
+    setError(null);
   };
 
   const handleCreateNewExam = () => {
-    setSelectedExam({ // Inicijaliziraj s defaultnim vrijednostima za novi ispit
+    setSelectedExam({
       id: null,
-      subject_id: subjects[0]?.id || '', // Default na prvi predmet ako postoji
+      subject_id: subjects[0]?.id || '',
       year: new Date().getFullYear(),
       term: 'Ljetni rok',
-      level: '', // Prazan string za N/A ili se postavi na null
+      level: '',
       title_display: '',
-      exam_booklet_url: null,
-      answer_key_url: null,
-      listening_material_url: null,
     });
     setIsEditingExam(true);
-    setExamQuestions([]); // Nema pitanja za novi nesačuvani ispit
+    setExamQuestions([]);
     setMessage(null);
+    setError(null);
   };
 
   const handleEditExam = () => {
+    if (!selectedExam) return;
     setIsEditingExam(true);
     setMessage(null);
+    setError(null);
   };
 
   const handleSaveExam = async (examData) => {
-    setLoading(true);
+    // setLoading(true);
     setMessage(null);
     setError(null);
     try {
       let response;
-      if (examData.id) {
-        // UPDATE poziv na backend
-        response = await fetch(`${API_BASE_PATH}/exams/${examData.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(examData)
-        });
-      } else {
-        // CREATE poziv na backend
-        response = await fetch(`${API_BASE_PATH}/exams`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(examData)
-        });
-      }
+      const method = examData.id ? 'PUT' : 'POST';
+      const url = examData.id ? `/admin/exams/${examData.id}` : `/admin/exams`;
+
+      response = await fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(examData)
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
-      const savedExam = await response.json(); // Backend bi trebao vratiti spremljeni/ažurirani objekt
-      setMessage('Exam saved successfully!');
+      const savedExam = await response.json();
+      setMessage('Ispit uspješno spremljen!');
       setIsEditingExam(false);
-      await fetchExams(); // Ponovno dohvati sve ispite kako bi se lista ažurirala
-      setSelectedExam(savedExam); // Odaberi spremljeni/ažurirani ispit
+      await fetchExams();
+      const newSelectedExam = exams.find(e => e.id === savedExam.id) || savedExam;
+      setSelectedExam(newSelectedExam);
+
     } catch (err) {
-      setError('Failed to save exam: ' + err.message);
+      setError('Greška pri spremanju ispita: ' + err.message);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
   const handleDeleteExam = async (examId) => {
-    if (!window.confirm('Are you sure you want to delete this exam and all its questions? This action cannot be undone.')) return;
-    setLoading(true);
+    if (!window.confirm('Jeste li sigurni da želite obrisati ovaj ispit i sva povezana pitanja? Ova akcija se ne može poništiti.')) return;
+    // setLoading(true);
     setMessage(null);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/exams/${examId}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(`/admin/exams/${examId}`, { method: 'DELETE' });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
-      setMessage('Exam deleted successfully!');
-      setSelectedExam(null); // Odznači nakon brisanja
-      await fetchExams(); // Ponovno dohvati sve ispite kako bi se lista ažurirala
+      setMessage('Ispit uspješno obrisan!');
+      setSelectedExam(null);
+      await fetchExams();
     } catch (err) {
-      setError('Failed to delete exam: ' + err.message);
+      setError('Greška pri brisanju ispita: ' + err.message);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
-  // --- Detail (Question) Handlers ---
   const handleAddQuestion = () => {
     if (!selectedExam || !selectedExam.id) {
-      alert('Please select an exam first or save the new exam before adding questions.');
+      alert('Molimo prvo odaberite ili spremite ispit prije dodavanja pitanja.');
       return;
     }
     setCurrentQuestion({
       id: null,
-      exam_id: selectedExam.id, // Poveži s trenutno odabranim ispitom
-      question_type_id: questionTypes[0]?.id || '', // Default na prvi tip pitanja
+      exam_id: selectedExam.id,
+      question_type_id: questionTypes[0]?.id || '',
       question_text: '',
-      order_in_exam: examQuestions.length > 0 ? Math.max(...examQuestions.map(q => q.order_in_exam)) + 1 : 1, // Sljedeći redoslijed
+      order_in_exam: examQuestions.length > 0 ? Math.max(0, ...examQuestions.map(q => q.order_in_exam)) + 1 : 1,
       points: 1.00,
-      stimulus_text: '', // Pošalji backendu kao tekst stimulusa
-      correct_answer_text: '', // Za single-answer tipove
-      answers: [] // Prazan niz za opcije odgovora, frontend bi morao implementirati dinamičko dodavanje polja za ovo
+      stimulus_text: '',
+      correct_answer_text: '',
+      answers: []
     });
     setIsEditingQuestion(true);
     setMessage(null);
+    setError(null);
   };
 
   const handleEditQuestion = (question) => {
+    const questionTypeCode = questionTypes.find(qt => qt.id === question.question_type_id)?.type_code;
+    const isMC = ['MULTIPLE_CHOICE_SINGLE', 'MULTIPLE_CHOICE_MULTIPLE'].includes(questionTypeCode);
+    
     setCurrentQuestion({
       ...question,
-      correct_answer_text: question.answers?.find(a => a.is_correct)?.answer_text || '',
+      correct_answer_text: !isMC && question.answers && question.answers.find(a => a.is_correct)
+                           ? question.answers.find(a => a.is_correct).answer_text
+                           : (question.correct_answer_text || ''),
       answers: question.answers || []
     });
     setIsEditingQuestion(true);
     setMessage(null);
+    setError(null);
   };
 
   const handleSaveQuestion = async (questionData) => {
-    setLoading(true);
+    // setLoading(true);
     setMessage(null);
     setError(null);
     try {
       let response;
-      if (questionData.id) {
-        // UPDATE poziv na backend
-        response = await fetch(`${API_BASE_PATH}/questions/${questionData.id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(questionData)
-        });
-      } else {
-        // CREATE poziv na backend
-        response = await fetch(`${API_BASE_PATH}/questions`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(questionData)
-        });
-      }
+      const method = questionData.id ? 'PUT' : 'POST';
+      const url = questionData.id ? `/admin/questions/${questionData.id}` : `/admin/questions`;
+
+      response = await fetch(url, {
+        method: method,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(questionData)
+      });
 
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
-      setMessage('Question saved successfully!');
+      setMessage('Pitanje uspješno spremljeno!');
       setIsEditingQuestion(false);
-      await fetchQuestionsForExam(selectedExam.id); // Ponovno dohvati pitanja za trenutni ispit
+      if (selectedExam && selectedExam.id) {
+        await fetchQuestionsForExam(selectedExam.id);
+      }
     } catch (err) {
-      setError('Failed to save question: ' + err.message);
+      setError('Greška pri spremanju pitanja: ' + err.message);
     } finally {
-      setLoading(false);
+      // setLoading(false);
     }
   };
 
   const handleDeleteQuestion = async (questionId) => {
-    if (!window.confirm('Are you sure you want to delete this question? This action cannot be undone.')) return;
-    setLoading(true);
+    if (!window.confirm('Jeste li sigurni da želite obrisati ovo pitanje? Ova akcija se ne može poništiti.')) return;
+    // setLoading(true);
     setMessage(null);
     setError(null);
     try {
-      const response = await fetch(`${API_BASE_PATH}/questions/${questionId}`, {
-        method: 'DELETE',
+      const response = await fetch(`/admin/questions/${questionId}`, { method: 'DELETE' });
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+      setMessage('Pitanje uspješno obrisano!');
+      if (selectedExam && selectedExam.id) {
+        await fetchQuestionsForExam(selectedExam.id);
+      }
+    } catch (err) {
+      setError('Greška pri brisanju pitanja: ' + err.message);
+    } finally {
+      // setLoading(false);
+    }
+  };
+
+  const handleAddNewSubject = () => {
+    setNewSubjectName('');
+    setIsAddingSubject(true);
+    setMessage(null);
+    setError(null);
+  };
+
+  const handleSaveNewSubject = async (e) => {
+    e.preventDefault();
+    if (!newSubjectName.trim()) {
+      alert('Naziv predmeta ne može biti prazan.');
+      return;
+    }
+    setLoadingSubjects(true);
+    setMessage(null);
+    setError(null);
+    try {
+      const response = await fetch(`/admin/subjects`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: newSubjectName.trim() })
       });
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
       }
-      setMessage('Question deleted successfully!');
-      await fetchQuestionsForExam(selectedExam.id); // Ponovno dohvati pitanja
+      const addedSubject = await response.json();
+      setSubjects(prevSubjects => [...prevSubjects, addedSubject].sort((a, b) => a.name.localeCompare(b.name)));
+      setMessage(`Predmet "${addedSubject.name}" uspješno dodan!`);
+      setIsAddingSubject(false);
+      setNewSubjectName('');
     } catch (err) {
-      setError('Failed to delete question: ' + err.message);
+      setError('Greška pri dodavanju novog predmeta: ' + err.message);
     } finally {
-      setLoading(false);
+      setLoadingSubjects(false);
     }
   };
 
-  // --- NOVO: Handler za promjenu pretrage ---
+
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  // --- NOVO: Filtriranje ispita ---
   const filteredExams = exams.filter(exam =>
-    // Provjeri title_display i subject_name (koji dolazi s backend-a)
     (exam.title_display && exam.title_display.toLowerCase().includes(searchTerm.toLowerCase())) ||
     (exam.subject_name && exam.subject_name.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
-
-  // Prikazivanje poruka za učitavanje/grešku
-  if (loading && exams.length === 0 && !selectedExam) return <div className="loading">Loading exams...</div>;
-  if (!loading && exams.length === 0 && !isEditingExam && !searchTerm) return <div className="no-data">Nema unesenih ispita. Kliknite "+ Novi ispit" za početak.</div>;
-  if (error) return <div className="error-message">Error: {error}</div>;
+  if (loading && exams.length === 0 && !selectedExam && !isAddingSubject) return <div className="loading">Učitavanje ispita...</div>;
+  if (!loading && exams.length === 0 && !isEditingExam && !searchTerm && !isAddingSubject && !selectedExam) {
+      return (
+          <div className="admin-container">
+            <h1>Upravljanje ispitima i pitanjima</h1>
+             {message && <div className="app-message success">{message}</div>}
+             {error && <div className="app-message error">{error}</div>}
+            <div className="master-list">
+                <h2>Ispiti</h2>
+                <button className="btn btn-primary" onClick={handleCreateNewExam}>+ Novi ispit</button>
+                <button className="btn btn-secondary" onClick={handleAddNewSubject} style={{marginLeft: '10px'}}>+ Novi predmet</button>
+                 {isAddingSubject && (
+                    <div className="form-card subject-form-inline">
+                        <h3>Dodaj novi predmet</h3>
+                        <form onSubmit={handleSaveNewSubject}>
+                        <div className="form-group">
+                            <label htmlFor="newSubjectName">Naziv predmeta:</label>
+                            <input
+                                type="text"
+                                id="newSubjectName"
+                                value={newSubjectName}
+                                onChange={(e) => setNewSubjectName(e.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="form-actions">
+                            <button type="submit" className="btn btn-primary" disabled={loadingSubjects}>
+                                {loadingSubjects ? 'Spremanje...' : 'Spremi predmet'}
+                            </button>
+                            <button type="button" className="btn btn-secondary" onClick={() => setIsAddingSubject(false)} disabled={loadingSubjects}>
+                                Odustani
+                            </button>
+                        </div>
+                        </form>
+                    </div>
+                )}
+                <p className="no-data">Nema unesenih ispita.</p>
+            </div>
+          </div>
+      );
+  }
 
 
   return (
     <div className="admin-container">
-      <h1>Admin: Upravljanje ispitima i pitanjima</h1>
+      <h1>Upravljanje ispitima i pitanjima</h1>
 
-      {message && <div className="app-message success">{message}</div>}
-      {error && <div className="app-message error">{error}</div>}
+      {message && <div className="app-message success" onClick={() => setMessage(null)}>{message}</div>}
+      {error && <div className="app-message error" onClick={() => setError(null)}>{error}</div>}
+
+      {isAddingSubject && (
+        <div className="modal-overlay">
+          <div className="form-card subject-form-modal">
+            <h3>Dodaj novi predmet</h3>
+            <form onSubmit={handleSaveNewSubject}>
+              <div className="form-group">
+                <label htmlFor="newSubjectName">Naziv predmeta:</label>
+                <input
+                  type="text"
+                  id="newSubjectName"
+                  value={newSubjectName}
+                  onChange={(e) => setNewSubjectName(e.target.value)}
+                  required
+                  autoFocus
+                />
+              </div>
+              <div className="form-actions">
+                <button type="submit" className="btn btn-primary" disabled={loadingSubjects}>
+                  {loadingSubjects ? 'Spremanje...' : 'Spremi predmet'}
+                </button>
+                <button type="button" className="btn btn-secondary" onClick={() => setIsAddingSubject(false)} disabled={loadingSubjects}>
+                  Odustani
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
 
       <div className="master-detail-layout">
-        {/* Master List (Exams) */}
         <div className="master-list">
           <h2>Ispiti</h2>
-          <button className="btn btn-primary" onClick={handleCreateNewExam}>+ Novi ispit</button>
+          <div className="master-actions">
+            <button className="btn btn-primary" onClick={handleCreateNewExam}>+ Novi ispit</button>
+            <button className="btn btn-secondary" onClick={handleAddNewSubject} style={{ marginLeft: '10px' }}>+ Novi predmet</button>
+          </div>
 
-          {/* NOVO: Search komponenta */}
           <div className="search-bar">
             <input
               type="text"
@@ -339,23 +425,21 @@ const ExamMasterDetail = () => {
             />
           </div>
 
-          {/* Ažuriran prikaz liste ispita */}
-          {filteredExams.length === 0 ? (
-            // Prikazuje poruku o pretrazi ako nema rezultata, inače "Nema unesenih ispita" ako je lista totalno prazna
+          {loading && exams.length === 0 ? <div className="loading-inline">Učitavam ispite...</div> : null}
+          {filteredExams.length === 0 && !loading ? (
             searchTerm ? (
               <p className="no-data">Nema ispita koji odgovaraju pretrazi "{searchTerm}".</p>
             ) : (
-              // Ova poruka će se pojaviti samo ako je 'exams' prazan NAKON učitavanja i nema 'searchTerm'
-              <p className="no-data">Nema unesenih ispita.</p>
+              exams.length > 0 ? null : <p className="no-data">Nema unesenih ispita.</p>
             )
           ) : (
             <ul className="exam-list">
               {filteredExams.map(exam => (
-                <li key={exam.id} className={selectedExam?.id === exam.id ? 'selected' : ''}>
-                  <span>{exam.title_display} ({exam.year}) - {exam.subject_name}</span> {/* Dodan prikaz subject_name */}
+                <li key={exam.id} className={selectedExam?.id === exam.id ? 'selected' : ''} onClick={() => handleSelectExam(exam)}>
+                  <span>{exam.title_display} ({exam.year}) - {exam.subject_name}</span>
                   <div className="exam-actions">
-                    <button className="btn btn-secondary" onClick={() => handleSelectExam(exam)}>Pregledaj</button>
-                    <button className="btn btn-danger" onClick={() => handleDeleteExam(exam.id)}>Obriši</button>
+                    <button className="btn btn-secondary btn-small" onClick={(e) => {e.stopPropagation(); handleSelectExam(exam);}}>Pregledaj</button>
+                    <button className="btn btn-danger btn-small" onClick={(e) => { e.stopPropagation(); handleDeleteExam(exam.id); }}>Obriši</button>
                   </div>
                 </li>
               ))}
@@ -363,7 +447,6 @@ const ExamMasterDetail = () => {
           )}
         </div>
 
-        {/* Master Detail / Edit Form (Exam) */}
         <div className="master-detail-view">
           {isEditingExam ? (
             <ExamForm
@@ -382,11 +465,10 @@ const ExamMasterDetail = () => {
                 <p><strong>Razina:</strong> {selectedExam.level || 'N/A'}</p>
                 <button className="btn btn-secondary" onClick={handleEditExam}>Uredi ispit</button>
 
-                {/* Detail List (Questions) */}
                 <h3 className="detail-heading">Pitanja ({examQuestions.length})</h3>
                 <button className="btn btn-primary" onClick={handleAddQuestion}>+ Dodaj pitanje</button>
-                {loading && selectedExam.id ? ( // Show loading for questions only if exam selected
-                  <div className="loading">Loading questions...</div>
+                {loading && selectedExam.id ? (
+                  <div className="loading-inline">Učitavam pitanja...</div>
                 ) : examQuestions.length === 0 ? (
                   <p>Nema pitanja za ovaj ispit.</p>
                 ) : (
@@ -395,8 +477,8 @@ const ExamMasterDetail = () => {
                       <li key={question.id}>
                         <span>{question.order_in_exam}. {question.question_text.substring(0, Math.min(question.question_text.length, 100))}... ({question.points}b)</span>
                         <div className="question-actions">
-                          <button className="btn btn-secondary" onClick={() => handleEditQuestion(question)}>Uredi</button>
-                          <button className="btn btn-danger" onClick={() => handleDeleteQuestion(question.id)}>Obriši</button>
+                          <button className="btn btn-secondary btn-small" onClick={() => handleEditQuestion(question)}>Uredi</button>
+                          <button className="btn btn-danger btn-small" onClick={() => handleDeleteQuestion(question.id)}>Obriši</button>
                         </div>
                       </li>
                     ))}
@@ -405,10 +487,12 @@ const ExamMasterDetail = () => {
               </div>
             )
           )}
+          {!isEditingExam && !selectedExam && exams.length > 0 && (
+            <p className="no-data-placeholder">Odaberite ispit za prikaz detalja ili kreirajte novi.</p>
+          )}
         </div>
 
-        {/* Question Edit/Create Form (Modal) */}
-        {isEditingQuestion && (
+        {isEditingQuestion && currentQuestion && (
           <QuestionForm
             question={currentQuestion}
             questionTypes={questionTypes}

@@ -14,18 +14,16 @@ const ExamForm = ({ exam, subjects, onSave, onCancel }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Basic validation
     if (!formData.title_display || !formData.subject_id || !formData.year || !formData.term) {
       alert('Molimo popunite sva obvezna polja: Prikazni naziv, Predmet, Godina, Rok.');
       return;
     }
-    // Convert year to integer if it's a string from input
     const yearAsNumber = parseInt(formData.year, 10);
     if (isNaN(yearAsNumber)) {
       alert('Godina mora biti broj.');
       return;
     }
-    onSave({ ...formData, year: yearAsNumber }); // Pass converted year
+    onSave({ ...formData, year: yearAsNumber });
   };
 
   return (

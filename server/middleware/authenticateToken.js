@@ -14,7 +14,6 @@ function authenticateToken(req, res, next) {
             return res.sendStatus(403);
         }
 
-        //Provjeravamo je li korisnik verificiran
         if (!user.verified) {
             return res.status(403).json({ error: 'Korisnički račun nije verificiran.' });
         }

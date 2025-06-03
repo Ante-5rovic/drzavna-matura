@@ -1,5 +1,5 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // React Router
+import { useNavigate } from 'react-router-dom';
 import './question.css';
 import { MdDeleteForever } from "react-icons/md";
 import { FaExternalLinkSquareAlt } from "react-icons/fa";
@@ -7,13 +7,12 @@ import { FaExternalLinkSquareAlt } from "react-icons/fa";
 const Question = ({ id, title, text, color, onDelete, onClick }) => {
   const navigate = useNavigate();
 
-  // Stil za kontejner
   const containerStyle = {
     border: `3px solid ${color || '#ddd'}`
   };
 
   const handleNavigate = (e) => {
-    e.stopPropagation(); // da se ne okine onClick kontejnera
+    e.stopPropagation();
     navigate(`/pitanje/${id}`);
   };
 
@@ -25,8 +24,6 @@ const Question = ({ id, title, text, color, onDelete, onClick }) => {
     >
       <div className="question-title">{title}</div>
 
-      {/* Gumb za brisanje (X) - gornji desni kut */}
-
         <MdDeleteForever
         className="question-delete-button"
         onClick={(e) => {
@@ -35,7 +32,6 @@ const Question = ({ id, title, text, color, onDelete, onClick }) => {
         }}/>
       
 
-      {/* Gumb za otvaranje (Otvori) - odmah ispod X gumba */}
       <FaExternalLinkSquareAlt
       className="question-link-button"
       onClick={handleNavigate}

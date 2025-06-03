@@ -50,10 +50,8 @@ const Exam = () => {
 
   return (
     <div className="exam-main-wrap">
-      {/* Header je uvijek vidljiv */}
       <Header />
 
-      {/* Loader - prikazuje se dok je loading = true */}
       <div
         className={`exam-loading-screen-main-wrap ${
           loading ? "exam-loading-visible" : "exam-loading-hidden"
@@ -62,14 +60,12 @@ const Exam = () => {
         <LoadingScreen />
       </div>
 
-      {/* Glavni sadržaj aplikacije - prikazuje se kada loading = false */}
       <div className="exam-content-wrap">
         <h1 className="exam-title">{imeId}</h1>
         <MaturkoText isSimulationActive={"bez simulacije mature"} />
         <ExamSubjectWrapGeneric />
       </div>
 
-      {/* Footer je uvijek vidljiv */}
       <Footer footerImmageClass={"footer1"} />
     </div>
   );
