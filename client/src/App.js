@@ -12,7 +12,6 @@ import Register from "./Pages/AuntentificationPages/RegisterPage/Register";
 import MaturaList from "./Pages/MaturaListPage/MaturaList";
 import Profile from "./Pages/AuntentificationPages/ProfilePage/Profile";
 import Exam from "./Pages/ExamPages/Exam";
-import ExamMasterDetail from "./Pages/AdminPages/ExamMasterDetail"; 
 
 function App() {
   return (
@@ -34,7 +33,6 @@ function App() {
         <Route path="/exam/:imeId" element={<Exam/>} />{/*//Za sada samo test*/}
 
         <Route path="*" element={<NotFound />} />
-        <Route path="/admin/exams" element={<ExamMasterDetail />} />
       </Routes>
     </Router>
   );
