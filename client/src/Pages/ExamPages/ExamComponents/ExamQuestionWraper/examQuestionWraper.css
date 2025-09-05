@@ -1,6 +1,5 @@
-.exam-subject-wrap-generic-main-wrap{
+.exam-question-wraper{
     display: flex;
     flex-flow: column;
-    justify-content: start;
     align-items: center;
 }

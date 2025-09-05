@@ -1,0 +1,38 @@
+
+.question-main-container {
+  display: flex;
+  flex-flow: column;
+  justify-content: start;
+  font-family: var(--secondary-font);
+  width: 80%;
+  margin-bottom: 50px;
+
+}
+.question-container {
+  display: flex;
+  flex-flow: row;
+  justify-content: start;
+  font-family: var(--secondary-font);
+  margin-bottom: 20px;
+}
+
+.question-number{
+    margin-right: 30px;
+}
+
+.question-number-text{
+    font-size: var(--header-2-font-size);
+    margin: 0px;
+}
+
+.question-points-wrap{
+    display: flex;
+    flex-flow: row;
+    justify-content: end;
+}
+
+.question-points{
+    font-size: var(--header-2-5-font-size);
+    margin: 0px; 
+    font-weight: 600;
+}
