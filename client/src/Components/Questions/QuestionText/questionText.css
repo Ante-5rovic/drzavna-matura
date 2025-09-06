@@ -1,0 +1,7 @@
+.question-text{
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.6;
+  width:fit-content
+}
