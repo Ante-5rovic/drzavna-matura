@@ -1,0 +1,12 @@
+Ovo su tipovi pitanja:
+
+1	"MULTIPLE_CHOICE_SINGLE"	"Pitanje s višestrukim izborom gdje je samo jedan odgovor točan."
+2	"MULTIPLE_CHOICE_MULTIPLE"	"Pitanje s višestrukim izborom gdje može biti više točnih odgovora."
+3	"FILL_IN_BLANK"	            "Pitanje gdje korisnik treba upisati kratki odgovor u prazninu."
+4	"ESSAY"	                    "Esejsko pitanje koje zahtijeva duži tekstualni odgovor."
+5	"MATCH_PAIRS"	            "Pitanje gdje treba spojiti parove iz dvije kolone."
+6	"TRUE_FALSE"	            "Pitanje točno/netočno."
+7	"IMAGE_BASED"	            "Pitanje temeljeno na priloženoj slici."
+8	"AUDIO_BASED"	            "Pitanje temeljeno na priloženom audio zapisu."
+11	"GRAPH_DRAWING"	            "Zadatak koji zahtijeva crtanje grafa ili opis grafa kao odgovor."
+12	"EXTENDED_RESPONSE"	        "Zadatak koji zahtijeva duži, strukturirani odgovor, često s prikazom postupka."

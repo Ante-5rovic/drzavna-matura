@@ -12,6 +12,7 @@ import Register from "./Pages/AuntentificationPages/RegisterPage/Register";
 import MaturaList from "./Pages/MaturaListPage/MaturaList";
 import Profile from "./Pages/AuntentificationPages/ProfilePage/Profile";
 import Exam from "./Pages/ExamPages/Exam";
+import 'katex/dist/katex.min.css';
 
 function App() {
   return (

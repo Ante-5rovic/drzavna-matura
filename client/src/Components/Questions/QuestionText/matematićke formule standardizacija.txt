@@ -1,0 +1,10 @@
+\sqrt{...}: Označava drugi korijen. Primjer: \sqrt{3} (√3).
+\frac{...}{...}: Označava razlomak. Prvi argument je brojnik, drugi nazivnik. Primjer: \frac{1}{6} (1/6).
+^ (Caret): Označava eksponent (potenciju). Primjer: 9x^2 (9x²).
+\circ: Označava simbol za stupanj. Primjer: 70^\circ (70°).
+\text{...}: Koristi se za umetanje običnog teksta unutar matematičke formule. Primjer: \text{ cm}^2 (cm²).
+\angle: Simbol za kut. Primjer: \angle BAD.
+\in: Simbol za "je element skupa". Primjer: t \in \langle 0, \frac{\pi}{2} \rangle.
+\log_b (x): Logaritam s bazom b. Primjer: \log_b (2b).
+Grčka slova: \pi, \beta, \gamma, \phi.
+Vektori: \vec{AB}.
